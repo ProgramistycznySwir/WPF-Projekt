@@ -1,0 +1,15 @@
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\bin\Debug\Wpf_project.exe.config
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\bin\Debug\Wpf_project.exe
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\bin\Debug\Wpf_project.pdb
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\Wpf_project.csprojAssemblyReference.cache
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\MainWindow.g.cs
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\App.g.cs
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\Wpf_project_MarkupCompile.cache
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\Wpf_project_MarkupCompile.lref
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\MainWindow.baml
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\Wpf_project.g.resources
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\Wpf_project.Properties.Resources.resources
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\Wpf_project.csproj.GenerateResource.cache
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\Wpf_project.csproj.CoreCompileInputs.cache
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\Wpf_project.exe
+C:\Users\Diss_ConnecT\source\repos\Wpf_project\obj\Debug\Wpf_project.pdb
