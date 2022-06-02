@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WPF_Project
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logika interakcji dla klasy Task.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Task : UserControl
     {
-        public MainWindow()
+        public Task()
         {
             InitializeComponent();
         }

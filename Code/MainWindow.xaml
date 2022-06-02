@@ -25,35 +25,7 @@
         <Label Grid.Column="0" Grid.Row="1" Content="To do" Margin="5" />
         <Label Grid.Column="1" Grid.Row="1" Content="In progress" Margin="5" />
         <Label Grid.Column="2" Grid.Row="1" Content="Done" Margin="5" />
+        
 
-        <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Frame Grid.RowSpan="3" Grid.ColumnSpan="3" Foreground="Black" BorderBrush="Aqua" Visibility="Visible"/>
-
-            <Rectangle Grid.Row="0" Grid.Column="0" Fill="#FF0000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="15" MinHeight="10" Stroke="Black" Margin="5"/>
-
-            <TextBox Grid.Row="2" Grid.Column="0" Text="Tag1" TextWrapping="Wrap" Margin="5" />
-            <TextBox Grid.Row="2" Grid.Column="1" Text="Time" TextWrapping="Wrap" Margin="5" />
-            <Button Grid.Row="2" Grid.Column="2" Content="..." Margin="5" MinWidth="20" MaxWidth="25" HorizontalAlignment="Right" />
-            <ComboBox Grid.Row="1" Grid.Column="0" Width="40" Height="20"  SelectionChanged="ListBox_SelectionChanged">
-                <ComboBoxItem>
-                    <CheckBox>subtask1</CheckBox>
-                </ComboBoxItem>
-                <ComboBoxItem>
-                    <CheckBox>subtask2</CheckBox>
-                </ComboBoxItem>
-            </ComboBox>
-        </Grid>
     </Grid>
 </Window>
