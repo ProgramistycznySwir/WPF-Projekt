@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace WPF_Project.Models
 {
-    public class TagCategory
+    public class SubTask
     {
         [Key]
         public Guid ID { get; set; }
         public string Name { get; set; }
-        public uint Limit { get; set; }
 
-        public ICollection<Tag> Tags { get; set; }
+        public Guid Task_ID { get; set; }
+        public Task Task { get; set; }
     }
 }

@@ -26,6 +26,5 @@
         <Label Grid.Column="1" Grid.Row="1" Content="In progress" Margin="5" />
         <Label Grid.Column="2" Grid.Row="1" Content="Done" Margin="5" />
         
-
     </Grid>
 </Window>
