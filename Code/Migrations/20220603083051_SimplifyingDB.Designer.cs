@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WPF_Project.Data;
 
@@ -10,9 +11,10 @@ using WPF_Project.Data;
 namespace WPF_Project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220603083051_SimplifyingDB")]
+    partial class SimplifyingDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
@@ -72,18 +74,6 @@ namespace WPF_Project.Migrations
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
-
-                    b.Property<byte>("Color_A")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<byte>("Color_B")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<byte>("Color_G")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<byte>("Color_R")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()

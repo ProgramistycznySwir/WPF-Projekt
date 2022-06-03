@@ -16,5 +16,7 @@ namespace WPF_Project.Models
 
         public ICollection<Tag> Tags { get; set; }
         public ICollection<SubTask> SubTasks { get; set; }
+        public Guid Column_ID { get; set; }
+        public Column Column { get; set; }
     }
 }

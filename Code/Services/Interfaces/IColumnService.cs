@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace WPF_Project.Services.Interfaces
 {
-    internal interface ITagService
+    internal interface IColumnService
     {
-        
+        Task<IEnumerable<Task>> GetAllTasksOfColumnAsync(Guid columnID);
+        Task<IEnumerable<Task>> GetAllColumnsAsync();
     }
 }

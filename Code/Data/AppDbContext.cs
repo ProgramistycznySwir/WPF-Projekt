@@ -13,7 +13,7 @@ namespace WPF_Project.Data
         public DbSet<Models.Task> Tasks { get; set; }
         public DbSet<SubTask> SubTasks { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<TagCategory> TagCategories { get; set; }
+        public DbSet<Column> Columns { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
@@ -32,10 +32,16 @@ namespace WPF_Project.Data
                     .HasMany<Tag>(e => e.Tags)
                     .WithMany(e => e.Tasks);
 
-            bob.Entity<TagCategory>()
-                    .HasMany<Tag>(e => e.Tags)
-                    .WithOne(e => e.Category)
-					.HasForeignKey(e => e.Category_ID);
+            bob.Entity<Models.Task>()
+                    .HasOne<Column>(e => e.Column)
+                    .WithMany(e => e.Tasks)
+                    .HasForeignKey(e => e.Column_ID)
+                    .IsRequired();
 		}
+
+        private void SeedValues(ModelBuilder bob)
+        {
+
+        }
 	}
 }
