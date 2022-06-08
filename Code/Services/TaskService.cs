@@ -20,12 +20,19 @@ namespace WPF_Project.Services
 
         public Task<IEnumerable<BoardTask>> GetAllTasksWithTagAsync(Guid taskID)
         {
+            return _context.Tags.Find(columnID).Tasks;
             throw new NotImplementedException();
         }
 
         public Task<IEnumerable<BoardTask>> GetTaskAsync(Guid id)
         {
+            return _context.Tasks.Find(columnID);
             throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<BoardTask>> GetAllTasksOfColumnAsync(Guid columnID)
+        {
+            return _context.Columns.Find(columnID).Tasks;
         }
     }
 }

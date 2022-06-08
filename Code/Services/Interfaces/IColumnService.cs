@@ -10,7 +10,6 @@ namespace WPF_Project.Services.Interfaces
 {
     internal interface IColumnService
     {
-        Task<IEnumerable<BoardTask>> GetAllTasksOfColumnAsync(Guid columnID);
         Task<IEnumerable<Column>> GetAllColumnsAsync();
     }
 }

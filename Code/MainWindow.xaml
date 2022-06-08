@@ -30,7 +30,7 @@
             <ListBox Name="TaskList_todo">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <!--<local:Task BoardTask="{Binding}" />-->
+                        <local:Task BoardTask="{Binding}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

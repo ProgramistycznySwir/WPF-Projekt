@@ -28,14 +28,37 @@ namespace WPF_Project
             set => this.SetValue(BoardTask_Property, value);
         }
 
+        
+
         public Task()
         {
             InitializeComponent();
+            datePicker1.BlackoutDates.AddDatesInPast();
+            datePicker1.BlackoutDates.Add(new CalendarDateRange(DateTime.Now));
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void grid_MouseMove(object sender, MouseEventArgs e)
+        {
+            Grid grid = sender as Grid;
+            if (grid != null && e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragDrop.DoDragDrop(grid, grid, DragDropEffects.Move);
+            }
+        }
+
+        //private void DatePicker_DateChanged(object sender, DateChangedEventArgs e)
+        //{
+        //
+        //}
     }
 }

@@ -8,6 +8,12 @@ namespace WPF_Project.Services.Interfaces
 {
     internal interface ITagService
     {
-        
+        Task<BoardTask> AddTagAsync(Tag newTag);
+
+        Task<IEnumerable<BoardTask>> GetTag(Guid taskID);
+
+        Task<BoardTask> UpdateTagAsync(BoardTask task);
+
+        Task<BoardTask> DeleteTagAsync(Guid id);
     }
 }

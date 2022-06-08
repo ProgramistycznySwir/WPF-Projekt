@@ -23,10 +23,5 @@ namespace WPF_Project.Services
         {
             throw new NotImplementedException();
         }
-
-        public Task<IEnumerable<BoardTask>> GetAllTasksOfColumnAsync(Guid columnID)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

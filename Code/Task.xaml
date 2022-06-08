@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WPF_Project"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="350">
-    <Grid>
+    <Grid      MouseMove="grid_MouseMove">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -27,7 +27,7 @@
         <Rectangle Grid.Row="0" Grid.Column="2" Fill="#FF0000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="15" MinHeight="10" Stroke="Black" Margin="5"/>
 
         <TextBox Grid.Row="2" Grid.Column="0" Text="Tag1" TextWrapping="Wrap" Margin="5" />
-        <TextBox Grid.Row="2" Grid.Column="1" Text="Time" TextWrapping="Wrap" Margin="5" />
+        <DatePicker Name ="datePicker1"  Grid.Row="2" Grid.Column="1" Margin="5" />
         <Button Grid.Row="2" Grid.Column="2" Content="..." Margin="5" MinWidth="20" MaxWidth="25" HorizontalAlignment="Right" />
         <ComboBox Grid.Row="1" Grid.Column="0" Width="40" Height="20"  SelectionChanged="ListBox_SelectionChanged">
             <ComboBoxItem>
