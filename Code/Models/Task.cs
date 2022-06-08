@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WPF_Project.Models
 {
-    public class Task
+    public class BoardTask
     {
         [Key]
         public Guid ID { get; set; }
@@ -16,7 +16,7 @@ namespace WPF_Project.Models
 
         public ICollection<Tag> Tags { get; set; }
         public ICollection<SubTask> SubTasks { get; set; }
-        public Guid Column_ID { get; set; }
-        public Column Column { get; set; }
+        public int Column_ID { get; set; }
+        public BoardColumn Column { get; set; }
     }
 }

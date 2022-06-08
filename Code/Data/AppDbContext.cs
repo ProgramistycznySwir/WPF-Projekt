@@ -10,10 +10,10 @@ namespace WPF_Project.Data
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Models.Task> Tasks { get; set; }
+        public DbSet<BoardTask> Tasks { get; set; }
         public DbSet<SubTask> SubTasks { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<Column> Columns { get; set; }
+        public DbSet<BoardColumn> Columns { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
@@ -24,16 +24,16 @@ namespace WPF_Project.Data
 		{
 			base.OnModelCreating(bob);
 
-			bob.Entity<Models.Task>()
+			bob.Entity<BoardTask>()
 				    .HasMany<SubTask>(e => e.SubTasks)
                     .WithOne(e => e.Task)
 					.HasForeignKey(e => e.Task_ID);
-            bob.Entity<Models.Task>()
+            bob.Entity<BoardTask>()
                     .HasMany<Tag>(e => e.Tags)
                     .WithMany(e => e.Tasks);
 
-            bob.Entity<Models.Task>()
-                    .HasOne<Column>(e => e.Column)
+            bob.Entity<BoardTask>()
+                    .HasOne<BoardColumn>(e => e.Column)
                     .WithMany(e => e.Tasks)
                     .HasForeignKey(e => e.Column_ID)
                     .IsRequired();
@@ -41,7 +41,11 @@ namespace WPF_Project.Data
 
         private void SeedValues(ModelBuilder bob)
         {
-
+            bob.Entity<BoardColumn>().HasData(
+                    new BoardColumn { ID= 1, Name= "To Do" },
+                    new BoardColumn { ID= 2, Name= "In Progress" },
+                    new BoardColumn { ID= 3, Name= "Done" }
+                );
         }
 	}
 }

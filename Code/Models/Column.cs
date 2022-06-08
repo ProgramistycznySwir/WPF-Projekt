@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace WPF_Project.Models
 {
-    public class Column
+    public class BoardColumn
     {
         [Key]
-        public Guid ID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         
-        public ICollection<Task> Tasks { get; set; }
+        public ICollection<BoardTask> Tasks { get; set; }
     }
 }

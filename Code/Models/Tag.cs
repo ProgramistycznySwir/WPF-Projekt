@@ -24,6 +24,6 @@ namespace WPF_Project.Models
                 set => (Color_A, Color_R, Color_G, Color_B) = (value.A, value.R, value.G, value.B);
         }
 
-        public ICollection<Models.Task> Tasks { get; set; }
+        public ICollection<BoardTask> Tasks { get; set; }
     }
 }

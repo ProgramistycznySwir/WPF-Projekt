@@ -25,6 +25,16 @@
         <Label Grid.Column="0" Grid.Row="1" Content="To do" Margin="5" />
         <Label Grid.Column="1" Grid.Row="1" Content="In progress" Margin="5" />
         <Label Grid.Column="2" Grid.Row="1" Content="Done" Margin="5" />
+
+        <Grid Grid.Column="0" Grid.Row="2">
+            <ListBox Name="TaskList_todo">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!--<local:Task BoardTask="{Binding}" />-->
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
         
     </Grid>
 </Window>

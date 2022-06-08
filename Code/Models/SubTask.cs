@@ -14,6 +14,6 @@ namespace WPF_Project.Models
         public string Name { get; set; }
 
         public Guid Task_ID { get; set; }
-        public Task Task { get; set; }
+        public BoardTask Task { get; set; }
     }
 }

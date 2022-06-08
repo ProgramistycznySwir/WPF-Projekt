@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Project.Models;
 
 namespace WPF_Project
 {
@@ -20,6 +21,13 @@ namespace WPF_Project
     /// </summary>
     public partial class Task : UserControl
     {
+        public static readonly DependencyProperty BoardTask_Property = DependencyProperty.Register("BoardTask", typeof(BoardTask), typeof(Task));
+        public BoardTask BoardTask
+        {
+            get => this.GetValue(BoardTask_Property) as BoardTask;
+            set => this.SetValue(BoardTask_Property, value);
+        }
+
         public Task()
         {
             InitializeComponent();

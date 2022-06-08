@@ -3,27 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WPF_Project.Data;
 using WPF_Project.Models;
 using WPF_Project.Services.Interfaces;
 
 namespace WPF_Project.Services
 {
-    public class TaskService : ITaskService
+    public class ColumnService : IColumnService
     {
         private readonly AppDbContext _context;
 
-        public TaskService(AppDbContext context)
+        public ColumnService(AppDbContext context)
         {
             _context = context;
         }
 
-        public Task<IEnumerable<BoardTask>> GetAllTasksWithTagAsync(Guid taskID)
+        public Task<IEnumerable<Column>> GetAllColumnsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BoardTask>> GetTaskAsync(Guid id)
+        public Task<IEnumerable<BoardTask>> GetAllTasksOfColumnAsync(Guid columnID)
         {
             throw new NotImplementedException();
         }

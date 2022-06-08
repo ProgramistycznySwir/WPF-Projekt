@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Project.Models;
+
 
 namespace WPF_Project
 {
@@ -20,6 +22,8 @@ namespace WPF_Project
     /// </summary>
     public partial class MainWindow : Window
     {
+        public List<BoardTask> Tasks_todo { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,6 +32,12 @@ namespace WPF_Project
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        public void Setup()
+        {
+            TaskList_todo.ItemsSource = Tasks_todo;
+            //PointsList_test.ItemsSource = MainWindow.data.Datasets_test;
         }
     }
 }
