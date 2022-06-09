@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WPF_Project"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="350">
-    <Grid      MouseMove="grid_MouseMove">
+    <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -24,12 +24,20 @@
 
         <TextBox Grid.Row="0" Grid.Column="0" Text="Name" TextWrapping="Wrap" Margin="5" />
 
-        <Rectangle Grid.Row="0" Grid.Column="2" Fill="#FF0000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="15" MinHeight="10" Stroke="Black" Margin="5"/>
+        <Rectangle  Grid.Row="0" Grid.Column="2" Fill="{Binding Path=FillColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="15" MinHeight="10" Stroke="Black" Margin="5"/>
 
-        <TextBox Grid.Row="2" Grid.Column="0" Text="Tag1" TextWrapping="Wrap" Margin="5" />
+        <ComboBox IsEditable="True" Text="Tags" Grid.Row="2" Grid.Column="0" Width="auto" Height="20"  SelectionChanged="ListBox_SelectionChanged">
+            <ComboBoxItem>
+                <CheckBox>tag1</CheckBox>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <CheckBox>tag2</CheckBox>
+            </ComboBoxItem>
+        </ComboBox>
         <DatePicker Name ="datePicker1"  Grid.Row="2" Grid.Column="1" Margin="5" />
-        <Button Grid.Row="2" Grid.Column="2" Content="..." Margin="5" MinWidth="20" MaxWidth="25" HorizontalAlignment="Right" />
-        <ComboBox Grid.Row="1" Grid.Column="0" Width="40" Height="20"  SelectionChanged="ListBox_SelectionChanged">
+        <Button Grid.Row="2" Grid.Column="2" Content="&lt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Left" />
+        <Button Grid.Row="2" Grid.Column="2" Content="&gt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Right" />
+        <ComboBox IsEditable="True" Text="Subtasks" Grid.Row="1" Grid.Column="0" Width="auto" Height="20"  SelectionChanged="ListBox_SelectionChanged">
             <ComboBoxItem>
                 <CheckBox>subtask1</CheckBox>
             </ComboBoxItem>

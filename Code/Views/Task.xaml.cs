@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPF_Project.Models;
 
+
+
 namespace WPF_Project
 {
     /// <summary>
@@ -47,18 +49,8 @@ namespace WPF_Project
 
         }
 
-        private void grid_MouseMove(object sender, MouseEventArgs e)
-        {
-            Grid grid = sender as Grid;
-            if (grid != null && e.LeftButton == MouseButtonState.Pressed)
-            {
-                DragDrop.DoDragDrop(grid, grid, DragDropEffects.Move);
-            }
-        }
 
-        //private void DatePicker_DateChanged(object sender, DateChangedEventArgs e)
-        //{
-        //
-        //}
+
+
     }
 }

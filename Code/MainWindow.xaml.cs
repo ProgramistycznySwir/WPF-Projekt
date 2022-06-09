@@ -26,36 +26,50 @@ namespace WPF_Project
         public List<BoardTask> Tasks_todo { get; set; }
         private readonly ITaskService _taskService;
 
-        public MainWindow()
+        // public MainWindow() { InitializeComponent(); }
+        public MainWindow(ITaskService taskService)
         {
             InitializeComponent();
 
-            Tasks_todo = new() {
-                    new BoardTask{
-                        ID= new Guid(),
-                        Title= "Some task 1",
-                        Description= "Don't",
-                        Tags= null,
-                        SubTasks= null,
-                        Column_ID= 1,
-                        Column= new BoardColumn { ID= 1, Name= "To Do" }
-                    },
-                    new BoardTask{
-                        ID= new Guid(),
-                        Title= "Some task 2",
-                        Description= "Don't",
-                        Tags= null,
-                        SubTasks= null,
-                        Column_ID= 1,
-                        Column= new BoardColumn { ID= 1, Name= "To Do" }
-                    }
-                };
+            _taskService = taskService;
+
+            // Tasks_todo = new() {
+            //         new BoardTask{
+            //             ID= new Guid(),
+            //             Title= "Some task 1",
+            //             Description= "Don't",
+            //             Tags= null,
+            //             SubTasks= null,
+            //             Column_ID= 1,
+            //             Column= new BoardColumn { ID= 1, Name= "To Do" }
+            //         },
+            //         new BoardTask{
+            //             ID= new Guid(),
+            //             Title= "Some task 2",
+            //             Description= "Don't",
+            //             Tags= null,
+            //             SubTasks= null,
+            //             Column_ID= 1,
+            //             Column= new BoardColumn { ID= 1, Name= "To Do" }
+            //         }
+            //     };
+
+            FetchDataAsync();
             TaskList_todo.ItemsSource = Tasks_todo;
+            _taskService = taskService;
+        }
+
+        private async System.Threading.Tasks.Task FetchDataAsync()
+        {
+            Tasks_todo = (await _taskService.GetAllTasksOfColumnAsync(1)).Match(
+                    item => item.ToList(),
+                    error => { Console.WriteLine(error); return new List<BoardTask>(); }
+                );
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            
         }
     }
 }
