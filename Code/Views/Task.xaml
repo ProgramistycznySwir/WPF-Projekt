@@ -5,7 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPF_Project"
              mc:Ignorable="d" 
+             x:Name="TaskControl"
              d:DesignHeight="250" d:DesignWidth="350">
+    <UserControl.Resources>
+        <local:PriorityToValueConverter x:Key="R_PriorityToBrushConverter"/>
+    </UserControl.Resources>
     <Grid>
 
         <Grid.RowDefinitions>
@@ -22,9 +26,9 @@
         
         <GroupBox Grid.RowSpan="3" Grid.ColumnSpan="3" BorderBrush="#25A0DA" Background="#F5F5D1"></GroupBox>
 
-        <TextBox Grid.Row="0" Grid.Column="0" Text="Name" TextWrapping="Wrap" Margin="5" />
-
-        <Rectangle  Grid.Row="0" Grid.Column="2" Fill="{Binding Path=FillColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="15" MinHeight="10" Stroke="Black" Margin="5"/>
+        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Path=Title, Mode=TwoWay}" TextWrapping="Wrap" Margin="5" />
+        
+        <Rectangle Grid.Row="0" Grid.Column="2" Fill="{Binding Path=Priority, Mode=OneWay, Converter={StaticResource R_PriorityToBrushConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="15" MinHeight="10" Stroke="Black" Margin="5"/>
 
         <ComboBox IsEditable="True" Text="Tags" Grid.Row="2" Grid.Column="0" Width="auto" Height="20"  SelectionChanged="ListBox_SelectionChanged">
             <ComboBoxItem>

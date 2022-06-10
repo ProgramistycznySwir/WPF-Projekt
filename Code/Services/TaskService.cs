@@ -36,10 +36,11 @@ namespace WPF_Project.Services
 
         public async Task<Result<IEnumerable<BoardTask>>> GetAllTasksOfColumnAsync(int columnID)
         {
-            var column = await _context.Columns.FindAsync(columnID);
-            if(column is null)
+            //var column = await _context.Columns.FindAsync(columnID);
+            var column = _context.Columns.Find(columnID);
+            if (column is null)
                 return new Result<IEnumerable<BoardTask>>(new ArgumentException($"Couldn't get tasks!"));
-            var testTask = new BoardTask{
+            var testTask = new BoardTask{ // TODO_DEBUG: Delete.
                         ID= new Guid(),
                         Title= "Test Task",
                         Description= "Don't",
@@ -48,6 +49,7 @@ namespace WPF_Project.Services
                         Column_ID= 1,
                         Column= new BoardColumn { ID= 1, Name= "To Do" }
                     };
+            column.Tasks = new List<BoardTask>() { testTask }; // TODO_DEBUG: Delete.
             return new Result<IEnumerable<BoardTask>>(column.Tasks);
         }
 

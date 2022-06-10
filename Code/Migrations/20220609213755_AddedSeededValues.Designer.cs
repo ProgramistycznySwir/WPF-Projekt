@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WPF_Project.Data;
 
@@ -10,9 +11,10 @@ using WPF_Project.Data;
 namespace WPF_Project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220609213755_AddedSeededValues")]
+    partial class AddedSeededValues
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
@@ -77,9 +79,6 @@ namespace WPF_Project.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Priority")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -140,7 +139,7 @@ namespace WPF_Project.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("5c978646-9aa5-4231-8242-d4dc96a8fa7a"),
+                            ID = new Guid("2912bb7e-4103-4274-ad4b-139005a816c0"),
                             Color_A = (byte)0,
                             Color_B = (byte)0,
                             Color_G = (byte)0,
@@ -149,7 +148,7 @@ namespace WPF_Project.Migrations
                         },
                         new
                         {
-                            ID = new Guid("85e45b4f-462b-460a-ad0a-c77d9ada38e7"),
+                            ID = new Guid("b0985e44-f762-4b45-b28a-7f879265ba37"),
                             Color_A = (byte)0,
                             Color_B = (byte)0,
                             Color_G = (byte)0,
@@ -158,7 +157,7 @@ namespace WPF_Project.Migrations
                         },
                         new
                         {
-                            ID = new Guid("9cf87582-ad39-4531-9614-fcdbf7adeb96"),
+                            ID = new Guid("ac424a08-20be-45fb-bffb-7493c7ddc226"),
                             Color_A = (byte)0,
                             Color_B = (byte)0,
                             Color_G = (byte)0,
@@ -167,7 +166,7 @@ namespace WPF_Project.Migrations
                         },
                         new
                         {
-                            ID = new Guid("e24d1c51-0880-4745-a08a-6ba9f23a41ac"),
+                            ID = new Guid("b035587f-37f4-4d34-9439-e797d8713c10"),
                             Color_A = (byte)0,
                             Color_B = (byte)0,
                             Color_G = (byte)0,

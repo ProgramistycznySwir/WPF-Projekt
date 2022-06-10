@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Project.Helpers;
 using WPF_Project.Models;
 using WPF_Project.Services.Interfaces;
 
@@ -54,16 +55,17 @@ namespace WPF_Project
             //         }
             //     };
 
-            FetchDataAsync();
+            FetchData();
             TaskList_todo.ItemsSource = Tasks_todo;
             _taskService = taskService;
         }
 
-        private async System.Threading.Tasks.Task FetchDataAsync()
+        private void FetchData()
         {
-            Tasks_todo = (await _taskService.GetAllTasksOfColumnAsync(1)).Match(
+            var result = _taskService.GetAllTasksOfColumnAsync(1).Result;
+            Tasks_todo = result.Match(
                     item => item.ToList(),
-                    error => { Console.WriteLine(error); return new List<BoardTask>(); }
+                    ResultHandlers<List<BoardTask>>.DefaultHandler
                 );
         }
 

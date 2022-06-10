@@ -37,6 +37,7 @@ namespace WPF_Project.Data
                     .WithMany(e => e.Tasks)
                     .HasForeignKey(e => e.Column_ID)
                     .IsRequired();
+            SeedValues(bob);
 		}
 
         private void SeedValues(ModelBuilder bob)
@@ -45,6 +46,12 @@ namespace WPF_Project.Data
                     new BoardColumn { ID= 1, Name= "To Do" },
                     new BoardColumn { ID= 2, Name= "In Progress" },
                     new BoardColumn { ID= 3, Name= "Done" }
+                );
+            bob.Entity<Tag>().HasData(
+                    new Tag { ID= Guid.NewGuid(), Name= "School" },
+                    new Tag { ID= Guid.NewGuid(), Name= "Project" },
+                    new Tag { ID= Guid.NewGuid(), Name= "Exercise" },
+                    new Tag { ID= Guid.NewGuid(), Name= "Shopping" }
                 );
         }
 	}
