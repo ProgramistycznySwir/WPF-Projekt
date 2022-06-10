@@ -54,5 +54,10 @@ namespace WPF_Project.Data
                     new Tag { ID= Guid.NewGuid(), Name= "Shopping" }
                 );
         }
+
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        // {
+        //     optionsBuilder.UseSqlite("Filename=ElloApp.db");
+        // }
 	}
 }

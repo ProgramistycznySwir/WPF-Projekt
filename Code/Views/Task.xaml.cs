@@ -19,13 +19,14 @@ using WPF_Project.Helpers;
 using WPF_Project.Models;
 using WPF_Project.Services.Interfaces;
 using WPF_Project.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace WPF_Project
 {
     /// <summary>
     /// Logika interakcji dla klasy Task.xaml
     /// </summary>
-    public partial class Task : UserControl
+    public partial class Task : UserControl, INotifyPropertyChanged
     {
         public static readonly DependencyProperty BoardTask_Property = DependencyProperty.Register("BoardTask", typeof(BoardTask), typeof(Task));
         public BoardTask BoardTask
@@ -33,16 +34,35 @@ namespace WPF_Project
             get => this.GetValue(BoardTask_Property) as BoardTask;
             set => this.SetValue(BoardTask_Property, value);
         }
-
+        // TODO_AntiPattern: This direct construction of service is anti-pattern, but since wpf is bigger anti-pattern, we have to use parameterless constructor here.
+        //public static readonly DependencyProperty TagService_Property = DependencyProperty.Register("_tagService", typeof(ITagService), typeof(Task));
+        //public ITagService _tagService
+        //{
+        //    get => this.GetValue(TagService_Property) as ITagService;
+        //    set => this.SetValue(TagService_Property, value);
+        //}
+        private readonly ITaskService _taskService;
         private readonly ITagService _tagService;
 
         public ObservableCollection<Tag> Tags;
 
-        public Task(ITagService tagService)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged(string argName)
+        {
+            var handler = PropertyChanged;
+            if (handler is not null)
+                handler(this, new PropertyChangedEventArgs(argName));
+        }
+
+        public Task()
         {
             InitializeComponent();
-            // TODO_AntiPattern: This direct construction of service is anti-pattern, but since wpf is bigger anti-pattern, we have to use parameterless constructor here.
-            _tagService = tagService;
+            _taskService = new TaskService(new Data.AppDbContext(new DbContextOptionsBuilder<Data.AppDbContext>()
+                        .UseSqlite("Filename=ElloApp.db")
+                        .Options));
+            _tagService = new TagService(new Data.AppDbContext(new DbContextOptionsBuilder<Data.AppDbContext>()
+                        .UseSqlite("Filename=ElloApp.db")
+                        .Options));
 
             FetchData();
 
@@ -57,6 +77,10 @@ namespace WPF_Project
                     some => some,
                     ResultHandlers<ObservableCollection<Tag>>.ErrorDefault
                 );
+            //Tags = TagService.DEBUG_GetTagsCollectionAsync().Result.Match(
+            //        some => some,
+            //        ResultHandlers<ObservableCollection<Tag>>.ErrorDefault
+            //    );
             int _ = 0;
         }
 
@@ -65,31 +89,35 @@ namespace WPF_Project
 
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private async void tb_Title_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            BoardTask = (await _taskService.UpdateTaskAsync(BoardTask)).Match(
+                    some => some,
+                    ResultHandlers<BoardTask>.ErrorDefault
+                );
+        }
+
+        private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
 
         }
 
-
-
-        public class Model : INotifyPropertyChanged
+        private void btn_Priority_Click(object sender, RoutedEventArgs e)
         {
-            public BoardTask Task;
-            public MyBehaviourSubject<Color> FillColor;
-
-            public Model(BoardTask task)
-            {
-                Task = task;
-                FillColor = new(PropertyChanged!);
-            }
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-            private void OnPropertyChanged(string argName)
-            {
-                var handler = PropertyChanged;
-                if (handler is not null)
-                    handler(this, new PropertyChangedEventArgs(argName));
-            }
+            BoardTaskPriority priority = (BoardTaskPriority)((int)(BoardTask.Priority + 1) % 3);
+            var boardTask = new BoardTask {
+                    ID= BoardTask.ID,
+                    Title= BoardTask.Title,
+                    Description= BoardTask.Description,
+                    Priority= priority,
+                    Tags= BoardTask.Tags,
+                    SubTasks= BoardTask.SubTasks,
+                    Column_ID= BoardTask.Column_ID,
+                    Column= BoardTask.Column
+                };
+            //BoardTask = boardTask;
+            this.SetValue(BoardTask_Property, boardTask);
+            OnPropertyChanged(nameof(BoardTask.Priority));
         }
     }
 }

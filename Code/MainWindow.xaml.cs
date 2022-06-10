@@ -12,8 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Project.Data;
 using WPF_Project.Helpers;
 using WPF_Project.Models;
+using WPF_Project.Services;
 using WPF_Project.Services.Interfaces;
 
 
@@ -26,13 +28,17 @@ namespace WPF_Project
     {
         public List<BoardTask> Tasks_todo { get; set; }
         private readonly ITaskService _taskService;
+        private readonly AppDbContext _dbContext;
 
-        // public MainWindow() { InitializeComponent(); }
-        public MainWindow(ITaskService taskService)
+        // TODO_AntiPattern: This direct construction of service is anti-pattern, but since wpf is bigger anti-pattern, we have to use parameterless constructor here.
+        public ITagService TagServiceForInjection { get => new TagService(_dbContext); set => throw new NotImplementedException(); }
+
+        public MainWindow(ITaskService taskService, AppDbContext dbContext)
         {
             InitializeComponent();
 
             _taskService = taskService;
+            _dbContext = dbContext;
 
             FetchData();
             TaskList_todo.ItemsSource = Tasks_todo;

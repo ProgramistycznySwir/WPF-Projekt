@@ -45,7 +45,7 @@ namespace WPF_Project
             RegisterDependancies(services);
 
             services.AddSingleton<MainWindow>();
-            services.AddScoped<Task>();
+            //services.AddScoped<Task>();
             //services.AddTransient(typeof(MainWindow));
         }
 

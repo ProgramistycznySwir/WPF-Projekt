@@ -5,10 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
-        Title="Ello" Height="450" Width="800">
-    <Window.Resources>
-        <local:BoardTaskConverter x:Key="R_BoardTaskConverter"/>
-    </Window.Resources>
+        Title="Ello" Height="450" Width="800"
+        x:Name="W_MainWindow">
 
     <Grid>
 
@@ -36,6 +34,7 @@
             <ListBox Name="TaskList_todo">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
+                        <!--<local:Task BoardTask="{Binding}" _tagService="{Binding Path=TagServiceForInjection, Mode=OneTime}" />-->
                         <local:Task BoardTask="{Binding}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>

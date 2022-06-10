@@ -47,6 +47,10 @@ namespace WPF_Project.Services
             }
             return (Result<ObservableCollection<Tag>>)_tags;
         }
+        public async Task<Result<ObservableCollection<Tag>>> DEBUG_GetTagsCollectionAsync() => new ObservableCollection<Tag>() {
+                    new Tag { ID= Guid.NewGuid(), Name= "School"},
+                    new Tag { ID= Guid.NewGuid(), Name= "Project"},
+                };
 
         // TODO_Deprecated: This way of getting tags is deprecated and shuld be removed in further refactoring.
         public Task<Result<IEnumerable<Tag>>> GetAllTagsAsync()
