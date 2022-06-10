@@ -31,20 +31,6 @@ namespace WPF_Project
     
             ServiceProvider = services.BuildServiceProvider();
         }
-        // protected override void OnStartup(StartupEventArgs e)
-        // {
-        //     // IConfigurationBuilder builder = new ConfigurationBuilder()
-        //     //     // .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-        //     //     .SetBasePath(Directory.GetCurrentDirectory());
-    
-        //     // Configuration = builder.Build();
-    
-    
-        //     //var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-        //     //mainWindow.Show();
-        //     // var mainWindow = ServiceProvider.GetService<MainWindow>();
-        //     // mainWindow!.Show();
-        // }
     
         private void ConfigureServices(IServiceCollection services)
         {
@@ -54,11 +40,12 @@ namespace WPF_Project
             {
                 services.AddScoped<ITaskService, TaskService>();
                 services.AddScoped<IColumnService, ColumnService>();
-                // services.AddScoped<ITagService, TagService>();
+                services.AddScoped<ITagService, TagService>();
             }
             RegisterDependancies(services);
 
             services.AddSingleton<MainWindow>();
+            services.AddScoped<Task>();
             //services.AddTransient(typeof(MainWindow));
         }
 

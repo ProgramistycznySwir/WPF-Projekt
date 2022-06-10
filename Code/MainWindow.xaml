@@ -25,7 +25,7 @@
         </Grid.ColumnDefinitions>
         
 
-        <Button Content="Add New Task" Margin="5" MinWidth="20" HorizontalAlignment="Left" Click="Button_Click" />
+        <Button Content="Add New Task" Margin="5" MinWidth="20" HorizontalAlignment="Left" Click="btn_AddTask_Click" />
         <Button Content= "Manage tags" Margin="5" MinWidth="20" HorizontalAlignment="Right" />
         
         <Label Grid.Column="0" Grid.Row="1" Content="To do" Margin="5" />

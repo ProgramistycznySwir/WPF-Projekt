@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -16,8 +17,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPF_Project.Helpers;
 using WPF_Project.Models;
-
-
+using WPF_Project.Services.Interfaces;
+using WPF_Project.Services;
 
 namespace WPF_Project
 {
@@ -33,19 +34,30 @@ namespace WPF_Project
             set => this.SetValue(BoardTask_Property, value);
         }
 
-        //public BoardTask BoardTask { get; set; }
+        private readonly ITagService _tagService;
 
-        //Model _model;
+        public ObservableCollection<Tag> Tags;
 
-
-        public Task()
+        public Task(ITagService tagService)
         {
             InitializeComponent();
-            //_model = new();
-            //this.DataContext = model;
+            // TODO_AntiPattern: This direct construction of service is anti-pattern, but since wpf is bigger anti-pattern, we have to use parameterless constructor here.
+            _tagService = tagService;
+
+            FetchData();
 
             datePicker1.BlackoutDates.AddDatesInPast();
             datePicker1.BlackoutDates.Add(new CalendarDateRange(DateTime.Now));
+        }
+
+        private void FetchData()
+        {
+            //var result = _tagService.GetAllTasksOfColumnAsync(1).Result;
+            Tags = _tagService.GetTagsCollectionAsync().Result.Match(
+                    some => some,
+                    ResultHandlers<ObservableCollection<Tag>>.ErrorDefault
+                );
+            int _ = 0;
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

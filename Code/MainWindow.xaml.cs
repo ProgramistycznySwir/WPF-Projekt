@@ -34,27 +34,6 @@ namespace WPF_Project
 
             _taskService = taskService;
 
-            // Tasks_todo = new() {
-            //         new BoardTask{
-            //             ID= new Guid(),
-            //             Title= "Some task 1",
-            //             Description= "Don't",
-            //             Tags= null,
-            //             SubTasks= null,
-            //             Column_ID= 1,
-            //             Column= new BoardColumn { ID= 1, Name= "To Do" }
-            //         },
-            //         new BoardTask{
-            //             ID= new Guid(),
-            //             Title= "Some task 2",
-            //             Description= "Don't",
-            //             Tags= null,
-            //             SubTasks= null,
-            //             Column_ID= 1,
-            //             Column= new BoardColumn { ID= 1, Name= "To Do" }
-            //         }
-            //     };
-
             FetchData();
             TaskList_todo.ItemsSource = Tasks_todo;
             _taskService = taskService;
@@ -64,14 +43,26 @@ namespace WPF_Project
         {
             var result = _taskService.GetAllTasksOfColumnAsync(1).Result;
             Tasks_todo = result.Match(
-                    item => item.ToList(),
-                    ResultHandlers<List<BoardTask>>.DefaultHandler
+                    some => some.ToList(),
+                    ResultHandlers<List<BoardTask>>.ErrorDefault
                 );
+            TaskList_todo.Items.Refresh();
+
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             
+        }
+
+        private async void btn_AddTask_Click(object sender, RoutedEventArgs e)
+        {
+            var task = (await _taskService.AddTaskAsync(new BoardTask {Column_ID = 1})).Match(
+                    some => some,
+                    ResultHandlers<BoardTask>.ErrorDefault
+                );
+            Tasks_todo.Add(task);
+            TaskList_todo.Items.Refresh();
         }
     }
 }

@@ -12,8 +12,8 @@ namespace WPF_Project.Models
     {
         [Key]
         public Guid ID { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string Title { get; set; } = "New Task";
+        public string Description { get; set; } = "";
         public BoardTaskPriority Priority { get; set; } = BoardTaskPriority.Mid;
 
         public ICollection<Tag>? Tags { get; set; }
