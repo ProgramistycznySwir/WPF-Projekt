@@ -67,7 +67,7 @@ namespace WPF_Project
             if (handler is not null)
                 handler(this, new PropertyChangedEventArgs(argName));
         }
-        private void OnPropertyAnyChanged()
+        private void OnAnyPropertyChanged()
         {
             // Don't know why but this bit of code is required if we want to notifying about changes to work :/
             if (DataContext != _model)
@@ -102,12 +102,17 @@ namespace WPF_Project
 
         private async void tb_Title_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (_model is null)
-                return;
-            _model = (await _taskService.UpdateTaskAsync(_model.ToDB())).Match(
+            //_model = (await _taskService.UpdateTaskAsync(_model.ToDB())).Match(
+            //        some => some.ToVM(),
+            //        ResultHandlers<BoardTaskVM>.ErrorDefault
+            //    );
+            var textBox = sender as TextBox;
+            _model.Title = textBox.Text;
+            _model = _taskService.UpdateTaskAsync(_model.ToDB()).Result.Match(
                     some => some.ToVM(),
                     ResultHandlers<BoardTaskVM>.ErrorDefault
                 );
+            OnAnyPropertyChanged();
         }
 
         private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
@@ -117,9 +122,15 @@ namespace WPF_Project
 
         private void btn_Priority_Click(object sender, RoutedEventArgs e)
         {
+            // TODO: Make this action async.
             BoardTaskPriority priority = (BoardTaskPriority)((int)(_model.Priority + 1) % 3);
             _model.Priority = priority;
-            OnPropertyAnyChanged();
+            OnAnyPropertyChanged();
+            _model = _taskService.UpdateTaskAsync(_model.ToDB())
+                    .Result
+                    .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
+                    .ToVM();
+            OnAnyPropertyChanged();
         }
     }
 }

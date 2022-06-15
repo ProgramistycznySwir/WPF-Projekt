@@ -74,6 +74,7 @@ namespace WPF_Project.Services
             
             taskDB.Title = task.Title;
             taskDB.Description = task.Description;
+            taskDB.Priority = task.Priority;
             taskDB.Tags = task.Tags;
             taskDB.SubTasks = task.SubTasks;
             taskDB.Column_ID = task.Column_ID;
