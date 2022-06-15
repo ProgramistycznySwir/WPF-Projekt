@@ -10,6 +10,8 @@ namespace WPF_Project.Services.Interfaces
 {
     public interface ITaskService
     {
+        public static ITaskService instance;
+
         public Task<Result<BoardTask>> AddTaskAsync(BoardTask newTask);
 
         Task<Result<IEnumerable<BoardTask>>> GetAllTasksWithTagAsync(Guid tagID);

@@ -8,8 +8,10 @@ using WPF_Project.Models;
 
 namespace WPF_Project.Services.Interfaces
 {
-    internal interface IColumnService
+    public interface IColumnService
     {
+        public static IColumnService instance;
+
         Task<IEnumerable<Column>> GetAllColumnsAsync();
     }
 }

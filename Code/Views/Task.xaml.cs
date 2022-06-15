@@ -28,7 +28,26 @@ namespace WPF_Project
     /// </summary>
     public partial class Task : UserControl, INotifyPropertyChanged
     {
-        public static readonly DependencyProperty BoardTask_Property = DependencyProperty.Register("BoardTask", typeof(BoardTask), typeof(Task));
+        public static readonly DependencyProperty BoardTask_Property = DependencyProperty.Register("BoardTask",
+                typeof(BoardTask),
+                typeof(Task),
+                new PropertyMetadata(BoardTask_Property_OnChanged));
+
+        private static void BoardTask_Property_OnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Task c = d as Task;
+            if (c is null)
+                return;
+            c.BoardTask_Property_OnChanged();
+            //PropertyChangedEventHandler h = c.PropertyChanged;
+            //if (h is not null)
+            //    h(c, new PropertyChangedEventArgs(nameof(BoardTask)));
+        }
+        public void BoardTask_Property_OnChanged()
+        {
+            OnPropertyChanged(nameof(BoardTask));
+        }
+
         public BoardTask BoardTask
         {
             get => this.GetValue(BoardTask_Property) as BoardTask;
@@ -57,12 +76,10 @@ namespace WPF_Project
         public Task()
         {
             InitializeComponent();
-            _taskService = new TaskService(new Data.AppDbContext(new DbContextOptionsBuilder<Data.AppDbContext>()
-                        .UseSqlite("Filename=ElloApp.db")
-                        .Options));
-            _tagService = new TagService(new Data.AppDbContext(new DbContextOptionsBuilder<Data.AppDbContext>()
-                        .UseSqlite("Filename=ElloApp.db")
-                        .Options));
+            _taskService = ITaskService.instance;
+            _tagService = ITagService.instance;
+
+            //this.DataContext = BoardTask;
 
             FetchData();
 
@@ -117,7 +134,8 @@ namespace WPF_Project
                 };
             //BoardTask = boardTask;
             this.SetValue(BoardTask_Property, boardTask);
-            OnPropertyChanged(nameof(BoardTask.Priority));
+            //OnPropertyChanged("Priority");
+            //OnPropertyChanged(nameof(BoardTask_Property));
         }
     }
 }

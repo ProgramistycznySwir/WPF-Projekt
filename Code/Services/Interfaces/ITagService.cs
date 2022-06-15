@@ -11,6 +11,8 @@ namespace WPF_Project.Services.Interfaces
 {
     public interface ITagService
     {
+        public static ITagService instance;
+
         Task<Result<Tag>> AddTagAsync(Tag newTag);
 
         Task<Result<IEnumerable<Tag>>> GetAllTagsAsync();
