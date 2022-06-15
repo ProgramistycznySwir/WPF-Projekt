@@ -20,6 +20,19 @@ namespace WPF_Project.Models
         public ICollection<SubTask>? SubTasks { get; set; }
         public int Column_ID { get; set; }
         public BoardColumn Column { get; set; }
+
+        public BoardTaskVM ToVM()
+            => new BoardTaskVM
+                {
+                    ID = this.ID,
+                    Title = this.Title,
+                    Description = this.Description,
+                    Priority = this.Priority,
+                    Tags = this.Tags,
+                    SubTasks = this.SubTasks,
+                    Column_ID = this.Column_ID,
+                    Column = this.Column
+                };
     }
     public enum BoardTaskPriority { Low, Mid, High }
     public static class BoardTaskPriority_Ext 

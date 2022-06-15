@@ -67,6 +67,7 @@ namespace WPF_Project.Services
 
         public async Task<Result<BoardTask>> UpdateTaskAsync(BoardTask task)
         {
+            // TODO: Put check-clause here.
             var taskDB = await _context.Tasks.FindAsync(task.ID);
             if(taskDB is null)
                 return new Result<BoardTask>(new ArgumentException($"There is no task with id {task.ID}!", nameof(task.ID)));

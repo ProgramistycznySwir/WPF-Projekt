@@ -28,8 +28,8 @@ namespace WPF_Project
     /// </summary>
     public partial class Task : UserControl, INotifyPropertyChanged
     {
-        public static readonly DependencyProperty BoardTask_Property = DependencyProperty.Register("BoardTask",
-                typeof(BoardTask),
+        public static readonly DependencyProperty BoardTask_Property = DependencyProperty.Register("BoardTask_ID",
+                typeof(Guid),
                 typeof(Task),
                 new PropertyMetadata(BoardTask_Property_OnChanged));
 
@@ -39,27 +39,22 @@ namespace WPF_Project
             if (c is null)
                 return;
             c.BoardTask_Property_OnChanged();
-            //PropertyChangedEventHandler h = c.PropertyChanged;
-            //if (h is not null)
-            //    h(c, new PropertyChangedEventArgs(nameof(BoardTask)));
         }
         public void BoardTask_Property_OnChanged()
         {
-            OnPropertyChanged(nameof(BoardTask));
+            if (BoardTask_ID is not null)
+                _model = _taskService.GetTaskAsync(BoardTask_ID.Value).Result.IfFail(ResultHandlers<BoardTask>.ErrorDefault).ToVM();
+            if(_model is not null)
+                this.DataContext = _model;
         }
 
-        public BoardTask BoardTask
+        public Guid? BoardTask_ID
         {
-            get => this.GetValue(BoardTask_Property) as BoardTask;
-            set => this.SetValue(BoardTask_Property, value);
+            get => this.GetValue(BoardTask_Property) as Guid?;
+            set { this.SetValue(BoardTask_Property, value); }
         }
-        // TODO_AntiPattern: This direct construction of service is anti-pattern, but since wpf is bigger anti-pattern, we have to use parameterless constructor here.
-        //public static readonly DependencyProperty TagService_Property = DependencyProperty.Register("_tagService", typeof(ITagService), typeof(Task));
-        //public ITagService _tagService
-        //{
-        //    get => this.GetValue(TagService_Property) as ITagService;
-        //    set => this.SetValue(TagService_Property, value);
-        //}
+
+        private BoardTaskVM _model;
         private readonly ITaskService _taskService;
         private readonly ITagService _tagService;
 
@@ -72,14 +67,19 @@ namespace WPF_Project
             if (handler is not null)
                 handler(this, new PropertyChangedEventArgs(argName));
         }
+        private void OnPropertyAnyChanged()
+        {
+            // Don't know why but this bit of code is required if we want to notifying about changes to work :/
+            if (DataContext != _model)
+                DataContext = _model;
+        }
 
         public Task()
         {
             InitializeComponent();
+            // TODO_AntiPattern: This direct construction of service is anti-pattern, but since wpf is bigger anti-pattern, we have to use parameterless constructor here.
             _taskService = ITaskService.instance;
             _tagService = ITagService.instance;
-
-            //this.DataContext = BoardTask;
 
             FetchData();
 
@@ -89,16 +89,10 @@ namespace WPF_Project
 
         private void FetchData()
         {
-            //var result = _tagService.GetAllTasksOfColumnAsync(1).Result;
             Tags = _tagService.GetTagsCollectionAsync().Result.Match(
                     some => some,
                     ResultHandlers<ObservableCollection<Tag>>.ErrorDefault
                 );
-            //Tags = TagService.DEBUG_GetTagsCollectionAsync().Result.Match(
-            //        some => some,
-            //        ResultHandlers<ObservableCollection<Tag>>.ErrorDefault
-            //    );
-            int _ = 0;
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -108,9 +102,11 @@ namespace WPF_Project
 
         private async void tb_Title_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            BoardTask = (await _taskService.UpdateTaskAsync(BoardTask)).Match(
-                    some => some,
-                    ResultHandlers<BoardTask>.ErrorDefault
+            if (_model is null)
+                return;
+            _model = (await _taskService.UpdateTaskAsync(_model.ToDB())).Match(
+                    some => some.ToVM(),
+                    ResultHandlers<BoardTaskVM>.ErrorDefault
                 );
         }
 
@@ -121,21 +117,9 @@ namespace WPF_Project
 
         private void btn_Priority_Click(object sender, RoutedEventArgs e)
         {
-            BoardTaskPriority priority = (BoardTaskPriority)((int)(BoardTask.Priority + 1) % 3);
-            var boardTask = new BoardTask {
-                    ID= BoardTask.ID,
-                    Title= BoardTask.Title,
-                    Description= BoardTask.Description,
-                    Priority= priority,
-                    Tags= BoardTask.Tags,
-                    SubTasks= BoardTask.SubTasks,
-                    Column_ID= BoardTask.Column_ID,
-                    Column= BoardTask.Column
-                };
-            //BoardTask = boardTask;
-            this.SetValue(BoardTask_Property, boardTask);
-            //OnPropertyChanged("Priority");
-            //OnPropertyChanged(nameof(BoardTask_Property));
+            BoardTaskPriority priority = (BoardTaskPriority)((int)(_model.Priority + 1) % 3);
+            _model.Priority = priority;
+            OnPropertyAnyChanged();
         }
     }
 }

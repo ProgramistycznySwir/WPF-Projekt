@@ -30,15 +30,13 @@ namespace WPF_Project
         private readonly ITaskService _taskService;
         private readonly AppDbContext _dbContext;
 
-        // TODO_AntiPattern: This direct construction of service is anti-pattern, but since wpf is bigger anti-pattern, we have to use parameterless constructor here.
-        public ITagService TagServiceForInjection { get => new TagService(_dbContext); set => throw new NotImplementedException(); }
-
         public MainWindow(AppDbContext dbContext, ITaskService taskService, ITagService tagService, IColumnService columnService)
         {
             InitializeComponent();
 
             _dbContext = dbContext;
             _taskService = taskService;
+            // TODO_AntiPattern
             ITaskService.instance = taskService;
             ITagService.instance = tagService;
             IColumnService.instance = columnService;

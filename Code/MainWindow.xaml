@@ -35,7 +35,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <!--<local:Task BoardTask="{Binding}" _tagService="{Binding Path=TagServiceForInjection, Mode=OneTime}" />-->
-                        <local:Task BoardTask="{Binding}" />
+                        <local:Task BoardTask_ID="{Binding Path=ID}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
