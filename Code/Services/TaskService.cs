@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LanguageExt.Common;
 using Microsoft.EntityFrameworkCore;
 using WPF_Project.Data;
-using WPF_Project.Models;
+using WPF_Project.Models.Database;
 using WPF_Project.Services.Interfaces;
 
 namespace WPF_Project.Services

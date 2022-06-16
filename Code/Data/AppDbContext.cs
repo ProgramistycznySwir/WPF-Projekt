@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WPF_Project.Models;
+using WPF_Project.Models.Database;
+using WPF_Project.Models.ViewModels;
 
 namespace WPF_Project.Data
 {

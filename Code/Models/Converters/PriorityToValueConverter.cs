@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
-using WPF_Project.Models;
+using WPF_Project.Models.Database;
 
 //namespace WPF_Project.Models.Converters
 namespace WPF_Project

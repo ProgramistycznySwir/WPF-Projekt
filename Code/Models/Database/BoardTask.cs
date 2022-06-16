@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using WPF_Project.Models.ViewModels;
 
-namespace WPF_Project.Models
+namespace WPF_Project.Models.Database
 {
     public class BoardTask
     {
@@ -23,23 +24,24 @@ namespace WPF_Project.Models
 
         public BoardTaskVM ToVM()
             => new BoardTaskVM
-                {
-                    ID = this.ID,
-                    Title = this.Title,
-                    Description = this.Description,
-                    Priority = this.Priority,
-                    Tags = this.Tags,
-                    SubTasks = this.SubTasks,
-                    Column_ID = this.Column_ID,
-                    Column = this.Column
-                };
+            {
+                ID = ID,
+                Title = Title,
+                Description = Description,
+                Priority = Priority,
+                Tags = Tags,
+                SubTasks = SubTasks,
+                Column_ID = Column_ID,
+                Column = Column
+            };
     }
     public enum BoardTaskPriority { Low, Mid, High }
-    public static class BoardTaskPriority_Ext 
+    public static class BoardTaskPriority_Ext
     {
-        public static Color ToColor(this BoardTaskPriority self) => self switch {
-            BoardTaskPriority.Low  => Color.FromRgb(0, 255, 0),    // Green
-            BoardTaskPriority.Mid  => Color.FromRgb(255, 255, 0), // Yellow
+        public static Color ToColor(this BoardTaskPriority self) => self switch
+        {
+            BoardTaskPriority.Low => Color.FromRgb(0, 255, 0),    // Green
+            BoardTaskPriority.Mid => Color.FromRgb(255, 255, 0), // Yellow
             BoardTaskPriority.High => Color.FromRgb(255, 0, 0),  // Red
             _ => Color.FromRgb(255, 255, 255)
         };

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LanguageExt.Common;
-using WPF_Project.Models;
+using WPF_Project.Models.Database;
 
 namespace WPF_Project.Services.Interfaces
 {

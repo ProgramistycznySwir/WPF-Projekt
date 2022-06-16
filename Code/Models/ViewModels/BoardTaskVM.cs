@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using WPF_Project.Models.Database;
 
-namespace WPF_Project.Models
+namespace WPF_Project.Models.ViewModels
 {
     public class BoardTaskVM : INotifyPropertyChanged
     {
@@ -41,14 +42,14 @@ namespace WPF_Project.Models
         public BoardTask ToDB()
             => new BoardTask
             {
-                ID = this.ID,
-                Title = this.Title,
-                Description = this.Description,
-                Priority = this.Priority,
-                Tags = this.Tags,
-                SubTasks = this.SubTasks,
-                Column_ID = this.Column_ID,
-                Column = this.Column
+                ID = ID,
+                Title = Title,
+                Description = Description,
+                Priority = Priority,
+                Tags = Tags,
+                SubTasks = SubTasks,
+                Column_ID = Column_ID,
+                Column = Column
             };
     }
 }

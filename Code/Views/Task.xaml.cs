@@ -16,10 +16,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPF_Project.Helpers;
-using WPF_Project.Models;
 using WPF_Project.Services.Interfaces;
 using WPF_Project.Services;
 using Microsoft.EntityFrameworkCore;
+using WPF_Project.Models.Database;
+using WPF_Project.Models.ViewModels;
 
 namespace WPF_Project
 {
@@ -93,19 +94,20 @@ namespace WPF_Project
                     some => some,
                     ResultHandlers<ObservableCollection<Tag>>.ErrorDefault
                 );
+            // TODO: Move ItemSource definition to .xaml
+            TagsComboBox.ItemsSource = Tags;
+            OnPropertyChanged(nameof(Tags));
+            OnAnyPropertyChanged();
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void lb_Tags_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-        private async void tb_Title_OnTextChanged(object sender, TextChangedEventArgs e)
+        private void tb_Title_OnIsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            //_model = (await _taskService.UpdateTaskAsync(_model.ToDB())).Match(
-            //        some => some.ToVM(),
-            //        ResultHandlers<BoardTaskVM>.ErrorDefault
-            //    );
+            // TODO: Make this action async.
             var textBox = sender as TextBox;
             _model.Title = textBox.Text;
             _model = _taskService.UpdateTaskAsync(_model.ToDB()).Result.Match(
@@ -113,11 +115,6 @@ namespace WPF_Project
                     ResultHandlers<BoardTaskVM>.ErrorDefault
                 );
             OnAnyPropertyChanged();
-        }
-
-        private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void btn_Priority_Click(object sender, RoutedEventArgs e)
@@ -131,6 +128,11 @@ namespace WPF_Project
                     .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
                     .ToVM();
             OnAnyPropertyChanged();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using LanguageExt.Common;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WPF_Project.Data;
-using WPF_Project.Models;
+using WPF_Project.Models.Database;
+using WPF_Project.Models.ViewModels;
 using WPF_Project.Services.Interfaces;
 
 namespace WPF_Project.Services
@@ -39,8 +40,10 @@ namespace WPF_Project.Services
                 return (Result<ObservableCollection<Tag>>)_tags;
             lock(_tags)
             {
-                if(_hasFetchedTags)
-                    _tags = new ObservableCollection<Tag>(_tags);
+                if (_hasFetchedTags)
+                    return (Result<ObservableCollection<Tag>>)_tags;
+                _hasFetchedTags = true;
+                _tags = new ObservableCollection<Tag>();
                 var tags_ = _context.Tags;
                 foreach(var tag in tags_)
                     _tags.Add(tag);

@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPF_Project.Data;
 using WPF_Project.Helpers;
-using WPF_Project.Models;
+using WPF_Project.Models.Database;
 using WPF_Project.Services;
 using WPF_Project.Services.Interfaces;
 

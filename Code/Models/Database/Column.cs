@@ -5,15 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPF_Project.Models
+namespace WPF_Project.Models.Database
 {
-    public class SubTask
+    public class BoardColumn
     {
         [Key]
-        public Guid ID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
 
-        public Guid Task_ID { get; set; }
-        public BoardTask Task { get; set; }
+        public ICollection<BoardTask>? Tasks { get; set; }
     }
 }

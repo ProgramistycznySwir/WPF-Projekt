@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LanguageExt.Common;
-using WPF_Project.Models;
+using WPF_Project.Models.Database;
+using WPF_Project.Models.ViewModels;
 
 namespace WPF_Project.Services.Interfaces
 {
