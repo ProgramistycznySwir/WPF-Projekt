@@ -43,10 +43,10 @@ namespace WPF_Project
         }
         public void BoardTask_Property_OnChanged()
         {
-            if (BoardTask_ID is not null)
-                _model = _taskService.GetTaskAsync(BoardTask_ID.Value).Result.IfFail(ResultHandlers<BoardTask>.ErrorDefault).ToVM();
-            if(_model is not null)
-                this.DataContext = _model;
+            if (BoardTask_ID is not null && Tags is not null)
+                _model = _taskService.GetTaskAsync(BoardTask_ID.Value).Result.IfFail(ResultHandlers<BoardTask>.ErrorDefault).ToVM(Tags);
+            if (_model is not null)
+                OnAnyPropertyChanged();
         }
 
         public Guid? BoardTask_ID
@@ -72,7 +72,11 @@ namespace WPF_Project
         {
             // Don't know why but this bit of code is required if we want to notifying about changes to work :/
             if (DataContext != _model)
+            {
                 DataContext = _model;
+                TagsComboBox.ItemsSource = _model.Tags;
+                TagsComboBox.Items.Refresh();
+            }
         }
 
         public Task()
@@ -95,25 +99,21 @@ namespace WPF_Project
                     ResultHandlers<ObservableCollection<Tag>>.ErrorDefault
                 );
             // TODO: Move ItemSource definition to .xaml
-            TagsComboBox.ItemsSource = Tags;
             OnPropertyChanged(nameof(Tags));
             OnAnyPropertyChanged();
-        }
-
-        private void lb_Tags_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
         private void tb_Title_OnIsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             // TODO: Make this action async.
             var textBox = sender as TextBox;
+            if (_model.Title == textBox!.Text)
+                return;
             _model.Title = textBox.Text;
-            _model = _taskService.UpdateTaskAsync(_model.ToDB()).Result.Match(
-                    some => some.ToVM(),
-                    ResultHandlers<BoardTaskVM>.ErrorDefault
-                );
+            _model = _taskService.UpdateTaskAsync(_model.ToDB())
+                    .Result
+                    .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
+                    .ToVM(Tags);
             OnAnyPropertyChanged();
         }
 
@@ -126,13 +126,22 @@ namespace WPF_Project
             _model = _taskService.UpdateTaskAsync(_model.ToDB())
                     .Result
                     .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
-                    .ToVM();
+                    .ToVM(Tags);
             OnAnyPropertyChanged();
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void cb_Tags_DropDownClosed(object sender, EventArgs e)
+        {
+            _model = _taskService.UpdateTagsOfTask(_model.ID, _model.ToDB().Tags)
+                    .Result
+                    .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
+                    .ToVM(Tags);
+            OnAnyPropertyChanged();
         }
     }
 }

@@ -40,8 +40,11 @@ namespace WPF_Project.Services
 
         public async Task<Result<IEnumerable<BoardTask>>> GetAllTasksOfColumnAsync(int columnID)
         {
-            var column = _context.Columns
+            var column = _context.Columns // TODO: Potential errors when handling collections, beware.
                     .Include(e => e.Tasks)
+                        .ThenInclude(e => e.SubTasks)
+                    .Include(e => e.Tasks)
+                        .ThenInclude(e => e.Tags)
                     .FirstOrDefault(e => e.ID == columnID);
             //var column = _context.Columns.Find(columnID);
             if (column is null)
@@ -71,13 +74,36 @@ namespace WPF_Project.Services
             var taskDB = await _context.Tasks.FindAsync(task.ID);
             if(taskDB is null)
                 return new Result<BoardTask>(new ArgumentException($"There is no task with id {task.ID}!", nameof(task.ID)));
+            var allTags = await _context.Tags.ToListAsync();
             
             taskDB.Title = task.Title;
             taskDB.Description = task.Description;
             taskDB.Priority = task.Priority;
-            taskDB.Tags = task.Tags;
-            taskDB.SubTasks = task.SubTasks;
+            //taskDB.SubTasks = task.SubTasks;
             taskDB.Column_ID = task.Column_ID;
+            _context.Tasks.Update(taskDB);
+            await _context.SaveChangesAsync();
+            return taskDB;
+        }
+        public async Task<Result<BoardTask>> UpdateTagsOfTask(Guid taskID, IEnumerable<Tag>? tags)
+        {
+            // TODO: Put check-clause here.
+            var taskDB = await _context.Tasks.Include(e => e.Tags).FirstOrDefaultAsync(e => e.ID == taskID);
+            if (taskDB is null)
+                return new Result<BoardTask>(new ArgumentException($"There is no task with id {taskID}!", nameof(taskID)));
+            var allTags = await _context.Tags.ToListAsync();
+
+            taskDB.Tags ??= new List<Tag>();
+            tags ??= new List<Tag>();
+            //taskDB.Tags = tags.ToList();
+
+            var toRemove = taskDB.Tags.Where(e => tags.All(e1 => e1.ID != e.ID));
+            foreach (var tag in toRemove)
+                taskDB.Tags.Remove(tag);
+            var toAdd = tags.Where(e => taskDB.Tags.All(e1 => e1.ID != e.ID));
+            foreach (var tag in toAdd)
+                taskDB.Tags.Add(allTags.First(e => e.ID == tag.ID));
+
             _context.Tasks.Update(taskDB);
             await _context.SaveChangesAsync();
             return taskDB;

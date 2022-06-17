@@ -17,19 +17,19 @@ namespace WPF_Project.Models.Database
         public string Description { get; set; } = "";
         public BoardTaskPriority Priority { get; set; } = BoardTaskPriority.Mid;
 
-        public ICollection<Tag>? Tags { get; set; }
-        public ICollection<SubTask>? SubTasks { get; set; }
+        public ICollection<Tag> Tags { get; set; }
+        public ICollection<SubTask> SubTasks { get; set; }
         public int Column_ID { get; set; }
         public BoardColumn Column { get; set; }
 
-        public BoardTaskVM ToVM()
+        public BoardTaskVM ToVM(IEnumerable<Tag> allTags)
             => new BoardTaskVM
             {
                 ID = ID,
                 Title = Title,
                 Description = Description,
                 Priority = Priority,
-                Tags = Tags,
+                Tags = allTags.Map(tag => tag.ToVM(Tags is null ? false : Tags.Any(e => e.ID == tag.ID))).ToList(),
                 SubTasks = SubTasks,
                 Column_ID = Column_ID,
                 Column = Column
