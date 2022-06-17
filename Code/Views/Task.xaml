@@ -43,11 +43,11 @@
         </ComboBox>
         
         <!--<ComboBox ItemsSource="{Binding Path=Tags, Mode=TwoWay}" IsEditable="True" Text="Tags" Grid.Row="2" Grid.Column="0" Width="auto" Height="20"  SelectionChanged="lb_Tags_OnSelectionChanged">-->
-        <ComboBox Name="TagsComboBox" Text="Tags" IsEditable="True" IsReadOnly="True" Grid.Row="2" Grid.Column="0" Width="auto" Height="20"  SelectionChanged="lb_Tags_OnSelectionChanged">
+        <ComboBox Name="TagsComboBox" Text="Tags" IsEditable="True" IsReadOnly="True" Grid.Row="2" Grid.Column="0" Width="auto" Height="20" DropDownClosed="cb_Tags_DropDownClosed">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <ComboBoxItem>
-                        <CheckBox Content="{Binding Name}" IsChecked="{}"/>
+                        <CheckBox Content="{Binding Name}" IsChecked="{Binding Path=IsChecked, Mode=TwoWay}"/>
                     </ComboBoxItem>
                 </DataTemplate>
             </ComboBox.ItemTemplate>

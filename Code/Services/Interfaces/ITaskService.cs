@@ -20,6 +20,7 @@ namespace WPF_Project.Services.Interfaces
         Task<Result<BoardTask>> GetTaskAsync(Guid id);
 
         Task<Result<BoardTask>> UpdateTaskAsync(BoardTask task);
+        Task<Result<BoardTask>> UpdateTagsOfTask(Guid taskID, IEnumerable<Tag>? tags);
         Task<Result<BoardTask>> MoveTask(Guid taskID, int toColumn);
 
         Task<Result<BoardTask>> DeleteTaskAsync(Guid id);
