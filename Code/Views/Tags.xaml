@@ -10,11 +10,27 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBox Background="Beige" Grid.Row="0" TextWrapping="Wrap" Text="Manage tags" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"/>
-        
-        <ListBox Background="Beige" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}"/>
-        
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" Text="Manage tags" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"/>
+
+        <!--<ListBox Background="Beige" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListBox_SelectionChanged"/> -->
+        <ListBox Background="Beige" Grid.Row="1" VerticalAlignment="Top">
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Margin="5">Tag1</TextBlock>
+                    <Button Margin="5" MinHeight="10" MinWidth="10" VerticalAlignment="Center" >
+                        <Image Source="Images\usunto.png" Width="10" Height="10"/>
+                    </Button>
+                </StackPanel>
+            </ListBoxItem>
+        </ListBox>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="25">
+            <TextBox MinWidth="50" VerticalAlignment="Center" Margin="5" />
+            <Button Margin="5" MinHeight="10" MinWidth="10" Content="Add tag" Click="Button_Click"/>
+        </StackPanel>
+
     </Grid>
 </UserControl>

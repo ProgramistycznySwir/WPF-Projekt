@@ -21,14 +21,14 @@ namespace WPF_Project.Data
         { }
 
 
-		protected override void OnModelCreating(ModelBuilder bob)
-		{
-			base.OnModelCreating(bob);
+        protected override void OnModelCreating(ModelBuilder bob)
+        {
+            base.OnModelCreating(bob);
 
-			bob.Entity<BoardTask>()
-				    .HasMany<SubTask>(e => e.SubTasks)
+            bob.Entity<BoardTask>()
+                    .HasMany<SubTask>(e => e.SubTasks)
                     .WithOne(e => e.Task)
-					.HasForeignKey(e => e.Task_ID);
+                    .HasForeignKey(e => e.Task_ID);
             bob.Entity<BoardTask>()
                     .HasMany<Tag>(e => e.Tags)
                     .WithMany(e => e.Tasks);
@@ -39,20 +39,20 @@ namespace WPF_Project.Data
                     .HasForeignKey(e => e.Column_ID)
                     .IsRequired();
             SeedValues(bob);
-		}
+        }
 
         private void SeedValues(ModelBuilder bob)
         {
             bob.Entity<BoardColumn>().HasData(
-                    new BoardColumn { ID= 1, Name= "To Do" },
-                    new BoardColumn { ID= 2, Name= "In Progress" },
-                    new BoardColumn { ID= 3, Name= "Done" }
+                    new BoardColumn { ID = 1, Name = "To Do" },
+                    new BoardColumn { ID = 2, Name = "In Progress" },
+                    new BoardColumn { ID = 3, Name = "Done" }
                 );
             bob.Entity<Tag>().HasData(
-                    new Tag { ID= Guid.NewGuid(), Name= "School" },
-                    new Tag { ID= Guid.NewGuid(), Name= "Project" },
-                    new Tag { ID= Guid.NewGuid(), Name= "Exercise" },
-                    new Tag { ID= Guid.NewGuid(), Name= "Shopping" }
+                    new Tag { ID = Guid.NewGuid(), Name = "School" },
+                    new Tag { ID = Guid.NewGuid(), Name = "Project" },
+                    new Tag { ID = Guid.NewGuid(), Name = "Exercise" },
+                    new Tag { ID = Guid.NewGuid(), Name = "Shopping" }
                 );
         }
 
@@ -60,5 +60,5 @@ namespace WPF_Project.Data
         // {
         //     optionsBuilder.UseSqlite("Filename=ElloApp.db");
         // }
-	}
+    }
 }
