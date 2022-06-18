@@ -70,12 +70,14 @@ namespace WPF_Project
         }
         private void OnAnyPropertyChanged()
         {
-            // Don't know why but this bit of code is required if we want to notifying about changes to work :/
+            // Don't know why but this bit of code is required if we want notifying about changes to work :/
             if (DataContext != _model)
             {
                 DataContext = _model;
                 TagsComboBox.ItemsSource = _model.Tags;
                 TagsComboBox.Items.Refresh();
+                TasksComboBox.ItemsSource = _model.SubTasks;
+                TasksComboBox.Items.Refresh();
             }
         }
 
@@ -130,17 +132,36 @@ namespace WPF_Project
             OnAnyPropertyChanged();
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void cb_Tags_DropDownClosed(object sender, EventArgs e)
         {
             _model = _taskService.UpdateTagsOfTask(_model.ID, _model.ToDB().Tags)
                     .Result
                     .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
                     .ToVM(Tags);
+            OnAnyPropertyChanged();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        // TODO_HIGH: Add addition of Subtasks and updating of finished tasks.
+        //             You can do it via event DropDownClosed.
+
+        private void tb_AddNewSubtask_OnEnter(object sender, KeyEventArgs e)
+        {
+            if (e.Key is not Key.Return)
+                return;
+            var textBox = sender as TextBox;
+            if (textBox is null)
+                throw new InvalidOperationException("Tried to use callback meant only for TextBoxes!");
+            _model.SubTasks ??= new List<SubTask>();
+            _model.SubTasks.Add(new SubTask {
+                    ID= Guid.NewGuid(),
+                    Name= textBox.Text,
+                    IsFinished= false,
+                });
             OnAnyPropertyChanged();
         }
     }
