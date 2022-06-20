@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using WPF_Project.Data;
 using WPF_Project.Helpers;
 using WPF_Project.Models.Database;
+using WPF_Project.Models.ViewModels;
 using WPF_Project.Services;
 using WPF_Project.Services.Interfaces;
 
@@ -64,11 +65,22 @@ namespace WPF_Project
         public void MoveTask(BoardTask task, int toColumnID)
         {
             int fromColumnIdx = task.Column_ID - 1;
-            task = Tasks[fromColumnIdx].First(e => e.ID == task.ID);
 
+            // For deletion from Tasks lists.
+            task = Tasks[fromColumnIdx].First(e => e.ID == task.ID);
             Tasks[fromColumnIdx].Remove(task);
             task = _taskService.MoveTask(task.ID, toColumnID).Result.IfFail(ResultHandlers<BoardTask>.ErrorDefault);
             Tasks[toColumnID - 1].Add(task);
+        }
+
+        public void DeleteTask(BoardTask task)
+        {
+            int columnIdx = task.Column_ID - 1;
+
+            _taskService.DeleteTaskAsync(task.ID).Result.IfFail(ResultHandlers<BoardTask>.ErrorDefault);
+            // For deletion from Tasks lists.
+            task = Tasks[columnIdx].First(e => e.ID == task.ID);
+            Tasks[columnIdx].Remove(task);
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

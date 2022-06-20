@@ -196,6 +196,14 @@ namespace WPF_Project
             parent.MoveTask(_model.ToDB(), _model.Column_ID + (isRight ? 1 : -1));
         }
 
+        private void btn_DeleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow parent = Window.GetWindow(this) as MainWindow;
+            if (parent is null)
+                throw new InvalidOperationException("This method is meant to be used only in MainWindow context!");
+            parent.DeleteTask(_model.ToDB());
+        }
+
         private void btn_DelSubTask_Click(object sender, RoutedEventArgs e)
         {
             // TODO_HIGH

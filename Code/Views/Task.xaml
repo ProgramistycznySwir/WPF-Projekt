@@ -73,7 +73,7 @@
             <TextBlock Text="Task progress" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
 
-        <Button Name="DeleteTask_Button" Grid.Row="2" Grid.Column="2" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Right"  >
+        <Button Name="DeleteTask_Button" Grid.Row="2" Grid.Column="2" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Right" Click="btn_DeleteTask_Click" >
             <Image Source="Images\usunto.png" Width="10" Height="10"/>
         </Button>
     </Grid>
