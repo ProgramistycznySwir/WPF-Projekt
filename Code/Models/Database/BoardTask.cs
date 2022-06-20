@@ -30,7 +30,7 @@ namespace WPF_Project.Models.Database
                 Description = Description,
                 Priority = Priority,
                 Tags = allTags.Map(tag => tag.ToVM(Tags is null ? false : Tags.Any(e => e.ID == tag.ID))).ToList(),
-                SubTasks = SubTasks.Select(e => e).ToList(),
+                SubTasks = SubTasks?.Select(e => e)?.ToList(),
                 Column_ID = Column_ID,
                 Column = Column
             };
@@ -42,7 +42,7 @@ namespace WPF_Project.Models.Database
         {
             BoardTaskPriority.Low => Color.FromRgb(0, 255, 0),    // Green
             BoardTaskPriority.Mid => Color.FromRgb(255, 255, 0), // Yellow
-            BoardTaskPriority.High => Color.FromRgb(255, 0, 0),  // Red
+            BoardTaskPriority.High => Color.FromRgb(255, 0, 0), // Red
             _ => Color.FromRgb(255, 255, 255)
         };
         // public static BoardTaskPriority FromColor(Color color) => color switch {
