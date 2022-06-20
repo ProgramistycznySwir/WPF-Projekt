@@ -74,12 +74,10 @@ namespace WPF_Project.Services
             var taskDB = await _context.Tasks.FindAsync(task.ID);
             if(taskDB is null)
                 return new Result<BoardTask>(new ArgumentException($"There is no task with id {task.ID}!", nameof(task.ID)));
-            var allTags = await _context.Tags.ToListAsync();
             
             taskDB.Title = task.Title;
             taskDB.Description = task.Description;
             taskDB.Priority = task.Priority;
-            //taskDB.SubTasks = task.SubTasks;
             taskDB.Column_ID = task.Column_ID;
             _context.Tasks.Update(taskDB);
             await _context.SaveChangesAsync();
@@ -95,7 +93,6 @@ namespace WPF_Project.Services
 
             taskDB.Tags ??= new List<Tag>();
             tags ??= new List<Tag>();
-            //taskDB.Tags = tags.ToList();
 
             var toRemove = taskDB.Tags.Where(e => tags.All(e1 => e1.ID != e.ID));
             foreach (var tag in toRemove)
@@ -103,6 +100,27 @@ namespace WPF_Project.Services
             var toAdd = tags.Where(e => taskDB.Tags.All(e1 => e1.ID != e.ID));
             foreach (var tag in toAdd)
                 taskDB.Tags.Add(allTags.First(e => e.ID == tag.ID));
+
+            _context.Tasks.Update(taskDB);
+            await _context.SaveChangesAsync();
+            return taskDB;
+        }
+        public async Task<Result<BoardTask>> UpdateSubTasksOfTask(Guid taskID, IEnumerable<SubTask>? subtasks)
+        {
+            // TODO: Put check-clause here.
+            var taskDB = await _context.Tasks.Include(e => e.SubTasks).FirstOrDefaultAsync(e => e.ID == taskID);
+            if (taskDB is null)
+                return new Result<BoardTask>(new ArgumentException($"There is no task with id {taskID}!", nameof(taskID)));
+
+            taskDB.SubTasks ??= new List<SubTask>();
+            subtasks ??= new List<SubTask>();
+
+            foreach (var subtask in taskDB.SubTasks)
+                subtask.IsFinished = subtasks.First(e => e.ID == subtask.ID).IsFinished;
+
+            var toAdd = subtasks.Where(e => taskDB.SubTasks.All(e1 => e1.ID != e.ID));
+            foreach(var subtask in toAdd)
+                taskDB.SubTasks.Add(subtask);
 
             _context.Tasks.Update(taskDB);
             await _context.SaveChangesAsync();

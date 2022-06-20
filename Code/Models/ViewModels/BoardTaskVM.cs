@@ -46,7 +46,7 @@ namespace WPF_Project.Models.ViewModels
                 Description = Description,
                 Priority = Priority,
                 Tags = Tags.Filter(e => e.IsChecked).Map(e => e.ToDB()).ToList(),
-                SubTasks = SubTasks,
+                SubTasks = SubTasks.Select(e => e).ToList(),
                 Column_ID = Column_ID,
                 Column = Column
             };

@@ -76,7 +76,8 @@ namespace WPF_Project
                 DataContext = _model;
                 TagsComboBox.ItemsSource = _model.Tags;
                 TagsComboBox.Items.Refresh();
-                TasksComboBox.ItemsSource = _model.SubTasks;
+                if(_model.SubTasks is not null)
+                    TasksComboBox.ItemsSource = _model.SubTasks;
                 TasksComboBox.Items.Refresh();
             }
         }
@@ -87,6 +88,8 @@ namespace WPF_Project
             // TODO_AntiPattern: This direct construction of service is anti-pattern, but since wpf is bigger anti-pattern, we have to use parameterless constructor here.
             _taskService = ITaskService.instance;
             _tagService = ITagService.instance;
+
+            TasksComboBox.ItemsSource = new List<SubTask>();
 
             FetchData();
 
@@ -158,10 +161,23 @@ namespace WPF_Project
                 throw new InvalidOperationException("Tried to use callback meant only for TextBoxes!");
             _model.SubTasks ??= new List<SubTask>();
             _model.SubTasks.Add(new SubTask {
-                    ID= Guid.NewGuid(),
                     Name= textBox.Text,
                     IsFinished= false,
                 });
+            OnAnyPropertyChanged();
+        }
+
+        private void btn_AddSubTask_Click(object sender, RoutedEventArgs e)
+        {
+            _model.SubTasks ??= new List<SubTask>();
+            _model.SubTasks.Add(new SubTask {
+                    Name = AddNewSubTask_Text.Text,
+                    IsFinished = false,
+                });
+            _model = _taskService.UpdateSubTasksOfTask(_model.ID, _model.SubTasks)
+                    .Result
+                    .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
+                    .ToVM(Tags);
             OnAnyPropertyChanged();
         }
     }

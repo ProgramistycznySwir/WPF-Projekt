@@ -30,7 +30,7 @@ namespace WPF_Project.Models.Database
                 Description = Description,
                 Priority = Priority,
                 Tags = allTags.Map(tag => tag.ToVM(Tags is null ? false : Tags.Any(e => e.ID == tag.ID))).ToList(),
-                SubTasks = SubTasks,
+                SubTasks = SubTasks.Select(e => e).ToList(),
                 Column_ID = Column_ID,
                 Column = Column
             };
