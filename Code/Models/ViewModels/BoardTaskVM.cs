@@ -30,6 +30,9 @@ namespace WPF_Project.Models.ViewModels
         //BoardColumn __Column;
         public BoardColumn Column { get; set; }
 
+        public bool IsNotColumnLeftmost { get => Column_ID != 1; set { } }
+        public bool IsNotColumnRightmost { get => Column_ID != MainWindow.NumberOfColumns; set { } }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged(string argName)
         {

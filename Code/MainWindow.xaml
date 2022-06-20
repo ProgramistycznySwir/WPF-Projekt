@@ -34,12 +34,29 @@
             <ListBox Name="TaskList_todo">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <!--<local:Task BoardTask="{Binding}" _tagService="{Binding Path=TagServiceForInjection, Mode=OneTime}" />-->
                         <local:Task BoardTask_ID="{Binding Path=ID}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
-        
+        <Grid Grid.Column="1" Grid.Row="2">
+            <ListBox Name="TaskList_inProgress">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <local:Task BoardTask_ID="{Binding Path=ID}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="2">
+            <ListBox Name="TaskList_done">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <local:Task BoardTask_ID="{Binding Path=ID}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
     </Grid>
 </Window>

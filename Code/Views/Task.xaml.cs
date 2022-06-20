@@ -180,5 +180,32 @@ namespace WPF_Project
                     .ToVM(Tags);
             OnAnyPropertyChanged();
         }
+
+        public bool IsNotColumnLeftmost => _model.Column_ID != 1;
+        public bool IsNotColumnRightmost => _model.Column_ID != MainWindow.NumberOfColumns;
+
+        private void btn_MoveTask_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button is null)
+                throw new InvalidOperationException("Tried to use callback meant only for Buttons!");
+
+            bool isRight = button.Name.Contains("Right");
+
+            MainWindow parent = Window.GetWindow(this) as MainWindow;
+            if (parent is null)
+                throw new InvalidOperationException("This method is meant to be used only in MainWindow context!");
+
+            _model.SubTasks ??= new List<SubTask>();
+            _model.SubTasks.Add(new SubTask {
+                Name = AddNewSubTask_Text.Text,
+                IsFinished = false,
+            });
+            _model = _taskService.UpdateSubTasksOfTask(_model.ID, _model.SubTasks)
+                    .Result
+                    .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
+                    .ToVM(Tags);
+            OnAnyPropertyChanged();
+        }
     }
 }

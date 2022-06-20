@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LanguageExt.Common;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,9 +28,11 @@ namespace WPF_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<BoardTask> Tasks_todo { get; set; }
+        public List<ObservableCollection<BoardTask>> Tasks { get; set; }
         private readonly ITaskService _taskService;
         private readonly AppDbContext _dbContext;
+
+        public const int NumberOfColumns = 3;
 
         public MainWindow(AppDbContext dbContext, ITaskService taskService, ITagService tagService, IColumnService columnService)
         {
@@ -41,20 +45,29 @@ namespace WPF_Project
             ITagService.instance = tagService;
             IColumnService.instance = columnService;
 
-            FetchData();
-            TaskList_todo.ItemsSource = Tasks_todo;
+            FetchDataAsync();
+            TaskList_todo.ItemsSource       = Tasks[0];
+            TaskList_inProgress.ItemsSource = Tasks[1];
+            TaskList_done.ItemsSource       = Tasks[2];
             _taskService = taskService;
         }
 
-        private void FetchData()
+        private async void FetchDataAsync()
         {
-            var result = _taskService.GetAllTasksOfColumnAsync(1).Result;
-            Tasks_todo = result.Match(
-                    some => some.ToList(),
-                    ResultHandlers<List<BoardTask>>.ErrorDefault
-                );
-            TaskList_todo.Items.Refresh();
+            var tasks = Enumerable.Range(1, NumberOfColumns).Map(i => _taskService.GetAllTasksOfColumnAsync(i));
 
+            await System.Threading.Tasks.Task.WhenAll(tasks);
+
+            Tasks = tasks.Map(task => new ObservableCollection<BoardTask>(task.Result.IfFail(ResultHandlers<IEnumerable<BoardTask>>.ErrorDefault))).ToList();
+        }
+
+        public void MoveTask(BoardTask task, int toColumnID)
+        {
+            int fromColumnID = task.Column_ID - 1;
+            task = Tasks[fromColumnID].First(e => e.ID == task.ID);
+
+            Tasks[fromColumnID].Remove(task);
+            Tasks[toColumnID].Add(task);
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,8 +81,8 @@ namespace WPF_Project
                     some => some,
                     ResultHandlers<BoardTask>.ErrorDefault
                 );
-            Tasks_todo.Add(task);
-            TaskList_todo.Items.Refresh();
+            Tasks[0].Add(task);
+            //TaskList_todo.Items.Refresh();
         }
     }
 }
