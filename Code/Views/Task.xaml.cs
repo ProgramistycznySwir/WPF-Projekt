@@ -193,11 +193,7 @@ namespace WPF_Project
             if (parent is null)
                 throw new InvalidOperationException("This method is meant to be used only in MainWindow context!");
 
-            _model.SubTasks ??= new List<SubTask>();
-            _model.SubTasks.Add(new SubTask {
-                Name = AddNewSubTask_Text.Text,
-                IsFinished = false,
-            });
+            parent.MoveTask(_model.ToDB(), _model.Column_ID + (isRight ? 1 : -1));
         }
 
         private void btn_DelSubTask_Click(object sender, RoutedEventArgs e)

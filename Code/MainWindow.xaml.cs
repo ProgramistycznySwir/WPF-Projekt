@@ -63,11 +63,12 @@ namespace WPF_Project
 
         public void MoveTask(BoardTask task, int toColumnID)
         {
-            int fromColumnID = task.Column_ID - 1;
-            task = Tasks[fromColumnID].First(e => e.ID == task.ID);
+            int fromColumnIdx = task.Column_ID - 1;
+            task = Tasks[fromColumnIdx].First(e => e.ID == task.ID);
 
-            Tasks[fromColumnID].Remove(task);
-            Tasks[toColumnID].Add(task);
+            Tasks[fromColumnIdx].Remove(task);
+            task = _taskService.MoveTask(task.ID, toColumnID).Result.IfFail(ResultHandlers<BoardTask>.ErrorDefault);
+            Tasks[toColumnID - 1].Add(task);
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
