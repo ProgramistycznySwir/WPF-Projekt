@@ -13,6 +13,6 @@ namespace WPF_Project.Models.Database
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public ICollection<BoardTask>? Tasks { get; set; }
+        public ICollection<BoardTask> Tasks { get; set; }
     }
 }

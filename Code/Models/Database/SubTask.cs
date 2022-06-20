@@ -13,6 +13,8 @@ namespace WPF_Project.Models.Database
         public Guid ID { get; set; }
         public string Name { get; set; }
 
+        public bool IsFinished { get; set; }
+
         public Guid Task_ID { get; set; }
         public BoardTask Task { get; set; }
     }

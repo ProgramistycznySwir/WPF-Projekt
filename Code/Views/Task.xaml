@@ -34,11 +34,14 @@
         </Button>
 
         <ComboBox IsEditable="True" Text="Subtasks" Grid.Row="1" Grid.Column="0" Width="117" Height="20"  SelectionChanged="ComboBox_SelectionChanged" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+        <ComboBox Name="TasksComboBox" IsEditable="True" Text="Subtasks" IsReadOnly="True" Grid.Row="1" Grid.Column="0" Width="auto" Height="20" DropDownClosed="cb_Tags_DropDownClosed">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Path=IsFinished, Mode=OneWayToSource}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
             <ComboBoxItem>
-                <CheckBox>subtask1</CheckBox>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <CheckBox>subtask2</CheckBox>
+                <TextBox Name="AddNewSubtaskTextBox" Width="120" HorizontalAlignment="Stretch" KeyDown="tb_AddNewSubtask_OnEnter"/>
             </ComboBoxItem>
         </ComboBox>
 
