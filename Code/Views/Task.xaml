@@ -66,13 +66,8 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <DatePicker Name ="datePicker1"  Grid.Row="2" Grid.Column="1" Margin="5" />
-<<<<<<< Updated upstream
-        <Button Name="MoveTaskButton_Left"  Grid.Row="2" Grid.Column="2" Content="&lt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Left"  IsEnabled="{Binding IsNotColumnLeftmost}"  Click="btn_MoveTask_Click" />
-        <Button Name="MoveTaskButton_Right" Grid.Row="2" Grid.Column="2" Content="&gt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Right" IsEnabled="{Binding IsNotColumnRightmost}" Click="btn_MoveTask_Click" />
-=======
-        <Button Grid.Row="1" Grid.Column="2" Content="&lt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Left" />
-        <Button Grid.Row="1" Grid.Column="2" Content="&gt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Right" />
->>>>>>> Stashed changes
+        <Button Name="MoveTaskButton_Left"  Grid.Row="1" Grid.Column="2" Content="&lt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Left"  IsEnabled="{Binding IsNotColumnLeftmost}"  Click="btn_MoveTask_Click" />
+        <Button Name="MoveTaskButton_Right" Grid.Row="1" Grid.Column="2" Content="&gt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Right" IsEnabled="{Binding IsNotColumnRightmost}" Click="btn_MoveTask_Click" />
         <Grid Grid.Row="3" Grid.ColumnSpan="3">
             <ProgressBar MinHeight="10" Minimum="0" Maximum="100" Value="75"></ProgressBar>
             <TextBlock Text="Task progress" HorizontalAlignment="Center" VerticalAlignment="Center" />

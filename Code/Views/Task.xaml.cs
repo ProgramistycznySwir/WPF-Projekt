@@ -181,10 +181,6 @@ namespace WPF_Project
             OnAnyPropertyChanged();
         }
 
-<<<<<<< Updated upstream
-        public bool IsNotColumnLeftmost => _model.Column_ID != 1;
-        public bool IsNotColumnRightmost => _model.Column_ID != MainWindow.NumberOfColumns;
-
         private void btn_MoveTask_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -202,20 +198,17 @@ namespace WPF_Project
                 Name = AddNewSubTask_Text.Text,
                 IsFinished = false,
             });
-=======
+        }
 
         private void btn_DelSubTask_Click(object sender, RoutedEventArgs e)
         {
             // TODO_HIGH
             TasksComboBox.Items.Remove(TasksComboBox.SelectedItem);
->>>>>>> Stashed changes
             _model = _taskService.UpdateSubTasksOfTask(_model.ID, _model.SubTasks)
                     .Result
                     .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
                     .ToVM(Tags);
             OnAnyPropertyChanged();
-<<<<<<< Updated upstream
-=======
 
         }
 
@@ -228,7 +221,6 @@ namespace WPF_Project
         {
 
             OnAnyPropertyChanged();
->>>>>>> Stashed changes
         }
     }
 }
