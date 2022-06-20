@@ -22,9 +22,9 @@ namespace WPF_Project.Models.ViewModels
         public BoardTaskPriority Priority { get => __Priority; set { __Priority = value; OnPropertyChanged(nameof(Priority)); } }
 
         //public ICollection<Tag>? Tags { get; set; }
-        public ICollection<Tag>? Tags { get; set; }
+        public ICollection<TagVM> Tags { get; set; }
         //public ICollection<SubTask>? SubTasks { get; set; }
-        public ICollection<SubTask>? SubTasks { get; set; }
+        public ICollection<SubTask> SubTasks { get; set; }
         int __Column_ID;
         public int Column_ID { get => __Column_ID; set { __Column_ID = value; OnPropertyChanged(nameof(Column_ID)); } }
         //BoardColumn __Column;
@@ -40,14 +40,13 @@ namespace WPF_Project.Models.ViewModels
 
 
         public BoardTask ToDB()
-            => new BoardTask
-            {
+            => new BoardTask {
                 ID = ID,
                 Title = Title,
                 Description = Description,
                 Priority = Priority,
-                Tags = Tags,
-                SubTasks = SubTasks,
+                Tags = Tags.Filter(e => e.IsChecked).Map(e => e.ToDB()).ToList(),
+                SubTasks = SubTasks.Select(e => e).ToList(),
                 Column_ID = Column_ID,
                 Column = Column
             };

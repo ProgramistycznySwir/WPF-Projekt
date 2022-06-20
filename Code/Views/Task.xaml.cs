@@ -43,10 +43,10 @@ namespace WPF_Project
         }
         public void BoardTask_Property_OnChanged()
         {
-            if (BoardTask_ID is not null)
-                _model = _taskService.GetTaskAsync(BoardTask_ID.Value).Result.IfFail(ResultHandlers<BoardTask>.ErrorDefault).ToVM();
-            if(_model is not null)
-                this.DataContext = _model;
+            if (BoardTask_ID is not null && Tags is not null)
+                _model = _taskService.GetTaskAsync(BoardTask_ID.Value).Result.IfFail(ResultHandlers<BoardTask>.ErrorDefault).ToVM(Tags);
+            if (_model is not null)
+                OnAnyPropertyChanged();
         }
 
         public Guid? BoardTask_ID
@@ -70,9 +70,16 @@ namespace WPF_Project
         }
         private void OnAnyPropertyChanged()
         {
-            // Don't know why but this bit of code is required if we want to notifying about changes to work :/
+            // Don't know why but this bit of code is required if we want notifying about changes to work :/
             if (DataContext != _model)
+            {
                 DataContext = _model;
+                TagsComboBox.ItemsSource = _model.Tags;
+                TagsComboBox.Items.Refresh();
+                if(_model.SubTasks is not null)
+                    TasksComboBox.ItemsSource = _model.SubTasks;
+                TasksComboBox.Items.Refresh();
+            }
         }
 
         public Task()
@@ -81,6 +88,8 @@ namespace WPF_Project
             // TODO_AntiPattern: This direct construction of service is anti-pattern, but since wpf is bigger anti-pattern, we have to use parameterless constructor here.
             _taskService = ITaskService.instance;
             _tagService = ITagService.instance;
+
+            TasksComboBox.ItemsSource = new List<SubTask>();
 
             FetchData();
 
@@ -95,25 +104,21 @@ namespace WPF_Project
                     ResultHandlers<ObservableCollection<Tag>>.ErrorDefault
                 );
             // TODO: Move ItemSource definition to .xaml
-            TagsComboBox.ItemsSource = Tags;
             OnPropertyChanged(nameof(Tags));
             OnAnyPropertyChanged();
-        }
-
-        private void lb_Tags_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
         private void tb_Title_OnIsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             // TODO: Make this action async.
             var textBox = sender as TextBox;
+            if (_model.Title == textBox!.Text)
+                return;
             _model.Title = textBox.Text;
-            _model = _taskService.UpdateTaskAsync(_model.ToDB()).Result.Match(
-                    some => some.ToVM(),
-                    ResultHandlers<BoardTaskVM>.ErrorDefault
-                );
+            _model = _taskService.UpdateTaskAsync(_model.ToDB())
+                    .Result
+                    .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
+                    .ToVM(Tags);
             OnAnyPropertyChanged();
         }
 
@@ -126,13 +131,54 @@ namespace WPF_Project
             _model = _taskService.UpdateTaskAsync(_model.ToDB())
                     .Result
                     .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
-                    .ToVM();
+                    .ToVM(Tags);
+            OnAnyPropertyChanged();
+        }
+
+        private void cb_Tags_DropDownClosed(object sender, EventArgs e)
+        {
+            _model = _taskService.UpdateTagsOfTask(_model.ID, _model.ToDB().Tags)
+                    .Result
+                    .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
+                    .ToVM(Tags);
             OnAnyPropertyChanged();
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        // TODO_HIGH: Add addition of Subtasks and updating of finished tasks.
+        //             You can do it via event DropDownClosed.
+
+        private void tb_AddNewSubtask_OnEnter(object sender, KeyEventArgs e)
+        {
+            if (e.Key is not Key.Return)
+                return;
+            var textBox = sender as TextBox;
+            if (textBox is null)
+                throw new InvalidOperationException("Tried to use callback meant only for TextBoxes!");
+            _model.SubTasks ??= new List<SubTask>();
+            _model.SubTasks.Add(new SubTask {
+                    Name= textBox.Text,
+                    IsFinished= false,
+                });
+            OnAnyPropertyChanged();
+        }
+
+        private void btn_AddSubTask_Click(object sender, RoutedEventArgs e)
+        {
+            _model.SubTasks ??= new List<SubTask>();
+            _model.SubTasks.Add(new SubTask {
+                    Name = AddNewSubTask_Text.Text,
+                    IsFinished = false,
+                });
+            _model = _taskService.UpdateSubTasksOfTask(_model.ID, _model.SubTasks)
+                    .Result
+                    .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
+                    .ToVM(Tags);
+            OnAnyPropertyChanged();
         }
     }
 }
