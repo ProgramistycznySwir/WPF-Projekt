@@ -34,11 +34,14 @@
             <Rectangle Fill="{Binding Path=Priority, Mode=OneWay, Converter={StaticResource R_PriorityToBrushConverter}}" Height="auto" Width="auto" MinWidth="80" MinHeight="20" Stroke="Black" />
         </Button>
 
-        <ComboBox Name="TasksComboBox" IsEditable="True" IsReadOnly="True" Text="Subtasks" Grid.Row="1" Grid.Column="0" Width="auto" Height="20"  DropDownClosed="cb_Tags_DropDownClosed" HorizontalAlignment="Left">
+        <ComboBox Name="TasksComboBox" IsEditable="True" IsReadOnly="True" Text="Subtasks" Grid.Row="1" Grid.Column="0" Width="auto" Height="20"  DropDownClosed="cb_Tags_DropDownClosed" HorizontalAlignment="Left" SelectionChanged="TasksComboBox_SelectionChanged">
         <!--<ComboBox Name="TasksComboBox" IsEditable="True" Text="Subtasks" IsReadOnly="True" Grid.Row="1" Grid.Column="0" Width="auto" Height="20" DropDownClosed="cb_Tags_DropDownClosed">-->
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Path=IsFinished, Mode=OneWayToSource}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{Binding Name}" IsChecked="{Binding Path=IsFinished, Mode=OneWayToSource}"/>
+                        <Button Name="DeleteSubtask" Click="btn_DeleteSubtask_Click" Margin="5" MinHeight="10" MinWidth="10" Content="X" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
             <!--<ComboBoxItem>
@@ -63,12 +66,21 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <DatePicker Name ="datePicker1"  Grid.Row="2" Grid.Column="1" Margin="5" />
+<<<<<<< Updated upstream
         <Button Name="MoveTaskButton_Left"  Grid.Row="2" Grid.Column="2" Content="&lt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Left"  IsEnabled="{Binding IsNotColumnLeftmost}"  Click="btn_MoveTask_Click" />
         <Button Name="MoveTaskButton_Right" Grid.Row="2" Grid.Column="2" Content="&gt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Right" IsEnabled="{Binding IsNotColumnRightmost}" Click="btn_MoveTask_Click" />
+=======
+        <Button Grid.Row="1" Grid.Column="2" Content="&lt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Left" />
+        <Button Grid.Row="1" Grid.Column="2" Content="&gt;" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Right" />
+>>>>>>> Stashed changes
         <Grid Grid.Row="3" Grid.ColumnSpan="3">
             <ProgressBar MinHeight="10" Minimum="0" Maximum="100" Value="75"></ProgressBar>
             <TextBlock Text="Task progress" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
+
+        <Button Name="DeleteTask_Button" Grid.Row="2" Grid.Column="2" Margin="5" MinWidth="20" MaxWidth="30" HorizontalAlignment="Right"  >
+            <Image Source="Images\usunto.png" Width="10" Height="10"/>
+        </Button>
     </Grid>
 
 </UserControl>

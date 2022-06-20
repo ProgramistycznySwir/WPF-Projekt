@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
-   <!-- <Copy SourceFiles="ElloApp.db" DestinationFolder="$(OutDir)" /> -->
+  <!-- <Copy SourceFiles="ElloApp.db" DestinationFolder="$(OutDir)" /> -->
   </Target>
 
 </Project>
