@@ -196,21 +196,18 @@ namespace WPF_Project
             parent.DeleteTask(_model.ToDB());
         }
 
-        private void btn_DelSubTask_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO_HIGH
-            TasksComboBox.Items.Remove(TasksComboBox.SelectedItem);
-            _model = _taskService.UpdateSubTasksOfTask(_model.ID, _model.SubTasks)
-                    .Result
-                    .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
-                    .ToVM(Tags);
-            OnAnyPropertyChanged();
-
-        }
-
         private void btn_DeleteSubtask_Click(object sender, RoutedEventArgs e)
         {
+            var button = sender as Button;
+            if(button is null)
+                throw new InvalidOperationException("Tried to use callback meant only for Buttons!");
+            var item = button.DataContext as SubTask;
+            if (item is null)
+                throw new InvalidOperationException();
 
+            var subtask = _model.SubTasks.First(e => e.ID == item.ID);
+            _model.SubTasks.Remove(subtask);
+            TasksComboBox.Items.Refresh();
             OnAnyPropertyChanged();
         }
 

@@ -115,6 +115,10 @@ namespace WPF_Project.Services
             taskDB.SubTasks ??= new List<SubTask>();
             subtasks ??= new List<SubTask>();
 
+            var toRemove = taskDB.SubTasks.Where(e => subtasks.All(e1 => e1.ID != e.ID));
+            foreach (var subtask in toRemove)
+                taskDB.SubTasks.Remove(subtask);
+
             foreach (var subtask in taskDB.SubTasks)
                 subtask.IsFinished = subtasks.First(e => e.ID == subtask.ID).IsFinished;
 

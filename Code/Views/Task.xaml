@@ -43,7 +43,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Content="{Binding Name}" IsChecked="{Binding Path=IsFinished, Mode=TwoWay}"/>
-                        <Button Name="DeleteSubtask" Click="btn_DeleteSubtask_Click" Margin="5" MinHeight="10" MinWidth="10" Content="X" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                        <Button Name="DeleteSubtaskButton" Click="btn_DeleteSubtask_Click" Margin="5" MinHeight="10" MinWidth="10" Content="X" VerticalAlignment="Center" HorizontalAlignment="Right" />
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
