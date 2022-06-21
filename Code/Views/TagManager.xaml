@@ -21,8 +21,8 @@
                     <ListBoxItem>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="{Binding Name}" Background="Beige" Margin="2" />
-                            <Button Content="Edit" Padding="2" Margin="2" />
-                            <Button Content="Delete" Foreground="Red" Padding="2" Margin="2" />
+                            <Button Content="Edit" Padding="2" Margin="2" Click="btn_EditTag_Click" />
+                            <Button Content="Delete" Foreground="Red" Padding="2" Margin="2" Click="btn_DeleteTag_Click" />
                         </StackPanel>
                     </ListBoxItem>
                 </DataTemplate>
@@ -30,8 +30,8 @@
         </ListBox>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="5">
-            <Button Content="Add new tag" Margin="2" Padding="2" MinHeight="10" MinWidth="10" Click="Button_Click"/>
-            <TextBox VerticalAlignment="Stretch" MinWidth="150" Margin="2" />
+            <Button Content="Add new tag" Margin="2" Padding="2" MinHeight="10" MinWidth="10" Click="btn_AddTag_Click"/>
+            <TextBox Name="TagNameText" VerticalAlignment="Stretch" MinWidth="150" Margin="2" />
         </StackPanel>
 
     </Grid>

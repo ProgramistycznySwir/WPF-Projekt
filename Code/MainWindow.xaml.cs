@@ -54,7 +54,7 @@ namespace WPF_Project
             // Shut down app on closing of this window.
             this.Closed += (sender, e) => Application.Current.Shutdown();
 
-            btn_OpenTagManager_Click(null, null);
+            btn_OpenTagManager_Click(null, null); // DEBUG
         }
 
         private async void FetchDataAsync()
@@ -94,21 +94,9 @@ namespace WPF_Project
                     ResultHandlers<BoardTask>.ErrorDefault
                 );
             Tasks[0].Add(task);
-            //TaskList_todo.Items.Refresh();
         }
 
         private void btn_OpenTagManager_Click(object sender, RoutedEventArgs e)
-        {
-            TagManager manWin = new TagManager();
-            manWin.Show();
-            manWin.Closed += TagManagerWindow_OnClosed;
-            this.Hide();
-        }
-
-        private void TagManagerWindow_OnClosed(object? sender, EventArgs e)
-        {
-            try { this.Show(); }
-            catch(InvalidOperationException _) { /* Ignore this exception. It is not harmful and takes effect only on closing program. */ }
-        }
+                => new TagManager().ShowDialog();
     }
 }

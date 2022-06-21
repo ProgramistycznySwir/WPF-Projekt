@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using WPF_Project.Helpers;
 using WPF_Project.Models.Database;
 using WPF_Project.Services.Interfaces;
+using WPF_Project.Views.Dialogs;
 
 namespace WPF_Project.Views
 {
@@ -37,9 +38,42 @@ namespace WPF_Project.Views
             TagList.ItemsSource = Tags;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btn_DeleteTag_Click(object sender, RoutedEventArgs e)
         {
+            var tag = (sender as FrameworkElement)?.DataContext as Tag;
+            if (tag is null)
+                throw new InvalidOperationException("It seems there is no tag to delete!");
+            MessageBoxResult result = MessageBox.Show($"Do you want to delete tag \"{tag.Name}\"?", "Delete tag", MessageBoxButton.YesNo);
+            if (result is not MessageBoxResult.Yes)
+                return;
 
+            _tagService.DeleteTagAsync(tag.ID).Result.IfFail(ResultHandlers<Tag>.ErrorDefault);
+        }
+        private void btn_EditTag_Click(object sender, RoutedEventArgs e)
+        {
+            var tag = (sender as FrameworkElement)?.DataContext as Tag;
+            if (tag is null)
+                throw new InvalidOperationException("It seems there is no tag to edit!");
+            var dialog = new EditTagDialog(tag);
+            if (dialog.ShowDialog() is false)
+                return; // Do nothing, when dialog is closed without saving.
+            tag = dialog.DataContext as Tag;
+            if (tag is null)
+                throw new InvalidOperationException("EditTagDialog can't return null!");
+            _tagService.UpdateTagAsync(tag);
+        }
+        private void btn_AddTag_Click(object sender, RoutedEventArgs e)
+        {
+            var name = TagNameText.Text;
+            if(string.IsNullOrWhiteSpace(name))
+            {
+                MessageBoxResult result = MessageBox.Show("You can't create subtask without name!", "Invalid subtask name", MessageBoxButton.OK);
+                return;
+            }
+
+            _tagService.AddTagAsync(new Tag {
+                Name = name
+            });
         }
     }
 }

@@ -50,10 +50,6 @@ namespace WPF_Project.Services
             }
             return (Result<ObservableCollection<Tag>>)_tags;
         }
-        public async Task<Result<ObservableCollection<Tag>>> DEBUG_GetTagsCollectionAsync() => new ObservableCollection<Tag>() {
-                    new Tag { ID= Guid.NewGuid(), Name= "School"},
-                    new Tag { ID= Guid.NewGuid(), Name= "Project"},
-                };
 
         // TODO_Deprecated: This way of getting tags is deprecated and shuld be removed in further refactoring.
         public Task<Result<IEnumerable<Tag>>> GetAllTagsAsync()
@@ -72,14 +68,26 @@ namespace WPF_Project.Services
             return tag;
         }
 
-        public Task<Result<Tag>> DeleteTagAsync(Guid id)
+        public async Task<Result<Tag>> DeleteTagAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var tag = await _context.Tags.FindAsync(id);
+            if (tag is null)
+                return new Result<Tag>(new ArgumentException($"Couldn't get tag with id {id}!", nameof(id)));
+            _tags.Remove(tag);
+            _context.Tags.Remove(tag);
+            await _context.SaveChangesAsync();
+            return tag;
         }
 
-        public Task<Result<Tag>> UpdateTagAsync(BoardTask task)
+        public async Task<Result<Tag>> UpdateTagAsync(Tag tag)
         {
-            throw new NotImplementedException();
+            var tagDB = await _context.Tags.FindAsync(tag.ID);
+            if (tag is null)
+                return new Result<Tag>(new ArgumentException($"Couldn't get tag with id {tag.ID}!", nameof(tag.ID)));
+            tagDB.Name = tag.Name;
+            _context.Tags.Update(tagDB);
+            await _context.SaveChangesAsync();
+            return tag;
         }
     }
 }

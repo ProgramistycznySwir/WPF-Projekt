@@ -20,7 +20,7 @@ namespace WPF_Project.Services.Interfaces
         Task<Result<ObservableCollection<Tag>>> GetTagsCollectionAsync();
         Task<Result<Tag>> GetTagAsync(Guid tagID);
 
-        Task<Result<Tag>> UpdateTagAsync(BoardTask task);
+        Task<Result<Tag>> UpdateTagAsync(Tag tag);
 
         Task<Result<Tag>> DeleteTagAsync(Guid id);
     }
