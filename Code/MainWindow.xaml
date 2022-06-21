@@ -21,12 +21,13 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
 
-        <Button Content="Add New Task" Margin="5" MinWidth="20" HorizontalAlignment="Left" Click="btn_AddTask_Click" />
-        <Button Content= "Manage tags" Margin="5" MinWidth="20" HorizontalAlignment="Right" />
-        
-        <Label Grid.Column="0" Grid.Row="1" Content="To do" Margin="5" />
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Add New Task" Margin="5" Padding="2" Click="btn_AddTask_Click" />
+            <Button Content="Manage tags"  Margin="5" Padding="2" Click="btn_OpenTagManager_Click" />
+        </StackPanel>
+                
+        <Label Grid.Column="0" Grid.Row="1" Content="To do" Padding="5" />
         <Label Grid.Column="1" Grid.Row="1" Content="In progress" Margin="5" />
         <Label Grid.Column="2" Grid.Row="1" Content="Done" Margin="5" />
 
@@ -57,6 +58,6 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
-
+        
     </Grid>
 </Window>

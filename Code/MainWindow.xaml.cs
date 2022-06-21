@@ -20,7 +20,7 @@ using WPF_Project.Models.Database;
 using WPF_Project.Models.ViewModels;
 using WPF_Project.Services;
 using WPF_Project.Services.Interfaces;
-
+using WPF_Project.Views;
 
 namespace WPF_Project
 {
@@ -50,7 +50,11 @@ namespace WPF_Project
             TaskList_todo.ItemsSource       = Tasks[0];
             TaskList_inProgress.ItemsSource = Tasks[1];
             TaskList_done.ItemsSource       = Tasks[2];
-            _taskService = taskService;
+
+            // Shut down app on closing of this window.
+            this.Closed += (sender, e) => Application.Current.Shutdown();
+
+            btn_OpenTagManager_Click(null, null);
         }
 
         private async void FetchDataAsync()
@@ -83,11 +87,6 @@ namespace WPF_Project
             Tasks[columnIdx].Remove(task);
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-        }
-
         private async void btn_AddTask_Click(object sender, RoutedEventArgs e)
         {
             var task = (await _taskService.AddTaskAsync(new BoardTask {Column_ID = 1})).Match(
@@ -96,6 +95,20 @@ namespace WPF_Project
                 );
             Tasks[0].Add(task);
             //TaskList_todo.Items.Refresh();
+        }
+
+        private void btn_OpenTagManager_Click(object sender, RoutedEventArgs e)
+        {
+            TagManager manWin = new TagManager();
+            manWin.Show();
+            manWin.Closed += TagManagerWindow_OnClosed;
+            this.Hide();
+        }
+
+        private void TagManagerWindow_OnClosed(object? sender, EventArgs e)
+        {
+            try { this.Show(); }
+            catch(InvalidOperationException _) { /* Ignore this exception. It is not harmful and takes effect only on closing program. */ }
         }
     }
 }
