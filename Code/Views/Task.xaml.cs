@@ -89,8 +89,6 @@ namespace WPF_Project
             _taskService = ITaskService.instance;
             _tagService = ITagService.instance;
 
-            TasksComboBox.ItemsSource = new List<SubTask>();
-
             FetchData();
 
             datePicker1.BlackoutDates.AddDatesInPast();

@@ -25,7 +25,7 @@ namespace WPF_Project.Models.ViewModels
         public ICollection<TagVM> Tags { get; set; }
         //public ICollection<SubTask>? SubTasks { get; set; }
         public ICollection<SubTask> SubTasks { get; set; }
-        public float CompletionRate { get => (SubTasks is null || SubTasks.Count is 0) ? 1 : (SubTasks.Fold(0, (aggr, curr) => aggr + (curr.IsFinished ? 1 : 0)) / SubTasks.Count); set { } }
+        public float CompletionRate { get => (SubTasks is null || SubTasks.Count is 0) ? 1 : (SubTasks.Fold(0, (aggr, curr) => aggr + (curr.IsFinished ? 1 : 0)) / (float)SubTasks.Count); set { } }
         int __Column_ID;
         public int Column_ID { get => __Column_ID; set { __Column_ID = value; OnPropertyChanged(nameof(Column_ID)); } }
         //BoardColumn __Column;

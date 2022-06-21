@@ -9,6 +9,10 @@
              d:DesignHeight="250" d:DesignWidth="350">
     <UserControl.Resources>
         <local:PriorityToValueConverter x:Key="R_PriorityToBrushConverter"/>
+        <Style TargetType="ComboBox">
+            <!-- Possibly other setters -->
+            <Setter Property="Focusable" Value="False" />
+        </Style>
     </UserControl.Resources>
     <Grid>
 
@@ -35,18 +39,14 @@
         </Button>
 
         <ComboBox Name="TasksComboBox" IsEditable="True" IsReadOnly="True" Text="Subtasks" Grid.Row="1" Grid.Column="0" Width="auto" Height="20" HorizontalAlignment="Left" DropDownClosed="cb_Tasks_DropDownClosed">
-        <!--<ComboBox Name="TasksComboBox" IsEditable="True" Text="Subtasks" IsReadOnly="True" Grid.Row="1" Grid.Column="0" Width="auto" Height="20" DropDownClosed="cb_Tags_DropDownClosed">-->
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="{Binding Name}" IsChecked="{Binding Path=IsFinished, Mode=OneWayToSource}"/>
+                        <CheckBox Content="{Binding Name}" IsChecked="{Binding Path=IsFinished, Mode=TwoWay}"/>
                         <Button Name="DeleteSubtask" Click="btn_DeleteSubtask_Click" Margin="5" MinHeight="10" MinWidth="10" Content="X" VerticalAlignment="Center" HorizontalAlignment="Right" />
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
-            <!--<ComboBoxItem>
-                <TextBox Name="AddNewSubtaskTextBox" IsEnabled="True" Width="120" HorizontalAlignment="Stretch" KeyDown="tb_AddNewSubtask_OnEnter"/>
-            </ComboBoxItem>-->
         </ComboBox>
         <DockPanel Grid.Row="1" Grid.Column="1" Margin="5">
             <Button Name="AddNewSubTask_Button" Content="+" DockPanel.Dock="Right"  Background="Azure" Click="btn_AddSubTask_Click" />
@@ -55,7 +55,6 @@
 
 
 
-        <!--<ComboBox ItemsSource="{Binding Path=Tags, Mode=TwoWay}" IsEditable="True" Text="Tags" Grid.Row="2" Grid.Column="0" Width="auto" Height="20"  SelectionChanged="lb_Tags_OnSelectionChanged">-->
         <ComboBox Name="TagsComboBox" Text="Tags" IsEditable="True" IsReadOnly="True" Grid.Row="2" Grid.Column="0" Width="auto" Height="20" DropDownClosed="cb_Tags_DropDownClosed">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
