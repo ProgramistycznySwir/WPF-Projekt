@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
-        Title="Ello" Height="450" Width="800"
+        Title="Ello" Height="600" Width="1000"
         x:Name="W_MainWindow">
 
     <Grid>

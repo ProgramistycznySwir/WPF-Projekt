@@ -13,7 +13,7 @@ namespace WPF_Project.Models.Database
     {
         [Key]
         public Guid ID { get; set; }
-        public string Title { get; set; } = "New Task";
+        public string Title { get; set; } = "Task Name";
         public string Description { get; set; } = "";
         public BoardTaskPriority Priority { get; set; } = BoardTaskPriority.Mid;
 

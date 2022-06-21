@@ -53,8 +53,6 @@ namespace WPF_Project
 
             // Shut down app on closing of this window.
             this.Closed += (sender, e) => Application.Current.Shutdown();
-
-            btn_OpenTagManager_Click(null, null); // DEBUG
         }
 
         private async void FetchDataAsync()

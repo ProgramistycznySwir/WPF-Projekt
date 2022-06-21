@@ -9,6 +9,7 @@
              d:DesignHeight="250" d:DesignWidth="350">
     <UserControl.Resources>
         <local:PriorityToValueConverter x:Key="R_PriorityToBrushConverter"/>
+        <local:PriorityToTextConverter x:Key="R_PriorityToTextConverter"/>
         <Style TargetType="ComboBox">
             <!-- Possibly other setters -->
             <Setter Property="Focusable" Value="False" />
@@ -35,7 +36,10 @@
         <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Path=Title, Mode=TwoWay}" TextWrapping="Wrap" Margin="5" IsKeyboardFocusedChanged="tb_Title_OnIsKeyboardFocusedChanged"/>
 
         <Button Grid.Row="0" Grid.Column="2" Margin="5" Click="btn_Priority_Click">
-            <Rectangle Fill="{Binding Path=Priority, Mode=OneWay, Converter={StaticResource R_PriorityToBrushConverter}}" Height="auto" Width="auto" MinWidth="80" MinHeight="20" Stroke="Black" />
+            <Grid>
+                <Rectangle Fill="{Binding Path=Priority, Mode=OneWay, Converter={StaticResource R_PriorityToBrushConverter}}" Height="auto" Width="auto" MinWidth="80" MinHeight="20" Stroke="Black" />
+                <Label Content="{Binding Path=Priority, Mode=OneWay, Converter={StaticResource R_PriorityToTextConverter}}" HorizontalAlignment="Center"/>
+            </Grid>
         </Button>
 
         <ComboBox Name="TasksComboBox" IsEditable="True" IsReadOnly="True" Text="Subtasks" Grid.Row="1" Grid.Column="0" Width="auto" Height="20" HorizontalAlignment="Left" DropDownClosed="cb_Tasks_DropDownClosed">
