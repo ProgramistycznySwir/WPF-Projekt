@@ -144,14 +144,8 @@ namespace WPF_Project
             OnAnyPropertyChanged();
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         // TODO_HIGH: Add addition of Subtasks and updating of finished tasks.
         //             You can do it via event DropDownClosed.
-
         private void tb_AddNewSubtask_OnEnter(object sender, KeyEventArgs e)
         {
             if (e.Key is not Key.Return)
@@ -216,14 +210,18 @@ namespace WPF_Project
 
         }
 
-        private void TasksComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void btn_DeleteSubtask_Click(object sender, RoutedEventArgs e)
         {
 
+            OnAnyPropertyChanged();
+        }
+
+        private void cb_Tasks_DropDownClosed(object sender, EventArgs e)
+        {
+            _model = _taskService.UpdateSubTasksOfTask(_model.ID, _model.ToDB().SubTasks)
+                    .Result
+                    .IfFail(ResultHandlers<BoardTask>.ErrorDefault)
+                    .ToVM(Tags);
             OnAnyPropertyChanged();
         }
     }
