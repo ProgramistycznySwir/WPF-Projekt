@@ -101,7 +101,7 @@ namespace WPF_Project
                     some => some,
                     ResultHandlers<ObservableCollection<Tag>>.ErrorDefault
                 );
-            // TODO: Move ItemSource definition to .xaml
+            // TODO: Move ItemSource definitions to .xaml
             OnPropertyChanged(nameof(Tags));
             OnAnyPropertyChanged();
         }
@@ -142,8 +142,6 @@ namespace WPF_Project
             OnAnyPropertyChanged();
         }
 
-        // TODO_HIGH: Add addition of Subtasks and updating of finished tasks.
-        //             You can do it via event DropDownClosed.
         private void tb_AddNewSubtask_OnEnter(object sender, KeyEventArgs e)
         {
             if (e.Key is not Key.Return)
@@ -161,9 +159,16 @@ namespace WPF_Project
 
         private void btn_AddSubTask_Click(object sender, RoutedEventArgs e)
         {
+            string newSubtask_name = AddNewSubTask_Text.Text;
+            if (string.IsNullOrWhiteSpace(newSubtask_name))
+            {
+                MessageBoxResult result = MessageBox.Show("You can't create subtask without name!", "Invalid subtask name", MessageBoxButton.OK);
+                return;
+            }
+
             _model.SubTasks ??= new List<SubTask>();
             _model.SubTasks.Add(new SubTask {
-                    Name = AddNewSubTask_Text.Text,
+                    Name = newSubtask_name,
                     IsFinished = false,
                 });
             _model = _taskService.UpdateSubTasksOfTask(_model.ID, _model.SubTasks)
@@ -190,6 +195,10 @@ namespace WPF_Project
 
         private void btn_DeleteTask_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show($"Do you want to delete task \"{_model.Title}\"?", "Delete task", MessageBoxButton.YesNo);
+            if (result is not MessageBoxResult.Yes)
+                return;
+
             MainWindow parent = Window.GetWindow(this) as MainWindow;
             if (parent is null)
                 throw new InvalidOperationException("This method is meant to be used only in MainWindow context!");
