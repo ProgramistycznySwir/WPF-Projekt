@@ -20,9 +20,7 @@
             <ListBoxItem>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center" Margin="5">Tag1</TextBlock>
-                    <Button Margin="5" MinHeight="10" MinWidth="10" VerticalAlignment="Center" >
-                        <Image Source="Images\usunto.png" Width="10" Height="10"/>
-                    </Button>
+                    <Button Content="X" Foreground="Red" Margin="5" MinHeight="10" MinWidth="10" VerticalAlignment="Center" />
                 </StackPanel>
             </ListBoxItem>
         </ListBox>
